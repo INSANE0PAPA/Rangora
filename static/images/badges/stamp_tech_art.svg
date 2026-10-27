@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <g stroke="#2B6E63" fill="none">
+    <polygon points="60,12 102,36 102,84 60,108 18,84 18,36" stroke-width="3" stroke-dasharray="5,3"/>
+    <polygon points="60,22 92,42 92,78 60,98 28,78 28,42" stroke-width="1.5" fill="#E5F2EF" fill-opacity="0.6"/>
+    <text x="60" y="46" font-family="monospace" font-size="8" font-weight="bold" text-anchor="middle" fill="#2B6E63">YANTRA</text>
+    <text x="60" y="56" font-family="sans-serif" font-size="6" text-anchor="middle" fill="#134E4A">TECH-ART SYMPOSIUM</text>
+    <circle cx="60" cy="72" r="8" fill="#2B6E63"/>
+    <rect x="57" y="69" width="6" height="6" fill="#FFF"/>
+    <text x="60" y="90" font-family="monospace" font-size="6" text-anchor="middle" fill="#2B6E63">PASS CHECK</text>
+  </g>
+</svg>

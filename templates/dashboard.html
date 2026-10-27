@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard &amp; Profile — Rangora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body
+  data-page="dashboard"
+  data-user-role="{{ current_user.role }}"
+  data-user-name="{{ current_user.full_name }}"
+  data-user-avatar="{{ current_user.avatar_url or '' }}"
+  class="min-h-screen flex flex-col"
+>
+
+  <!-- Top Navigation Header: Modest 'Rangora' wordmark on left, Round User Avatar Icon on right -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="flex items-center gap-3.5">
+        <a href="/" class="brand-wordmark" title="Return to Rangora Landing Page">Rangora</a>
+        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#23162B] text-[#FAF6F0]">
+          {{ current_user.role }} Hub
+        </span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="/" class="btn btn-outline text-xs py-2 px-3.5">&larr; Explore Events</a>
+        <button
+          type="button"
+          id="headerProfileIconBtn"
+          data-switch-tab="u-profile"
+          class="user-avatar-btn"
+          title="Click to open My Profile &amp; Settings"
+          aria-label="Open My Profile and Settings"
+        >
+          {% if current_user.avatar_url %}
+            <img id="dashHeaderAvatarImg" src="{{ current_user.avatar_url }}" alt="{{ current_user.full_name }}" />
+          {% else %}
+            <svg id="dashHeaderDefaultSvg" class="w-5 h-5 text-[#23162B]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          {% endif %}
+          <span class="user-avatar-status-dot"></span>
+        </button>
+        <button id="logoutBtn" type="button" class="btn btn-plum text-xs py-2 px-3.5">Sign Out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Layout -->
+  <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+    <!-- Compact Role-Aware Sidebar -->
+    <aside class="lg:col-span-3 space-y-6">
+      <div class="bg-white rounded-2xl border border-[#E4D9C8] p-5 shadow-sm">
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            data-switch-tab="u-profile"
+            class="user-avatar-btn w-12 h-12 shrink-0"
+            title="Update profile picture in Profile &amp; Settings"
+          >
+            {% if current_user.avatar_url %}
+              <img id="sidebarAvatarImg" src="{{ current_user.avatar_url }}" alt="{{ current_user.full_name }}" />
+            {% else %}
+              <svg id="sidebarDefaultSvg" class="w-6 h-6 text-[#23162B]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            {% endif %}
+          </button>
+          <div class="min-w-0">
+            <p class="text-[10px] font-mono uppercase tracking-wider text-[#C85A32]">Signed In As</p>
+            <h2 id="sidebarUserName" class="text-lg serif-heading truncate">{{ current_user.full_name }}</h2>
+            <p class="text-xs text-[#76667E] truncate">{{ current_user.email }}</p>
+          </div>
+        </div>
+
+        <!-- 1-Click Viva Demo Role Switcher -->
+        <div class="mt-4 pt-3 border-t border-[#E4D9C8]">
+          <label class="block text-[10px] font-bold uppercase tracking-wider text-[#76667E] mb-1.5">
+            Switch Role (Localhost Viva Demo)
+          </label>
+          <div class="grid grid-cols-3 gap-1">
+            <button type="button" data-viva-role="participant" class="viva-role-btn py-1.5 rounded-lg text-[11px] font-bold border {{ 'bg-[#23162B] text-white border-[#23162B]' if current_user.role == 'participant' else 'bg-[#FAF6F0] text-[#47384F] border-[#CEBFA8]' }}">
+              Participant
+            </button>
+            <button type="button" data-viva-role="organizer" class="viva-role-btn py-1.5 rounded-lg text-[11px] font-bold border {{ 'bg-[#23162B] text-white border-[#23162B]' if current_user.role == 'organizer' else 'bg-[#FAF6F0] text-[#47384F] border-[#CEBFA8]' }}">
+              Organizer
+            </button>
+            <button type="button" data-viva-role="admin" class="viva-role-btn py-1.5 rounded-lg text-[11px] font-bold border {{ 'bg-[#23162B] text-white border-[#23162B]' if current_user.role == 'admin' else 'bg-[#FAF6F0] text-[#47384F] border-[#CEBFA8]' }}">
+              Admin
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-5 pt-4 border-t border-[#E4D9C8] space-y-1.5" id="dashboardSidebarNav">
+          {% if current_user.role == 'participant' %}
+            <button type="button" data-dash-tab="p-overview" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-[#23162B] text-white">
+              My Registrations &amp; Passes
+            </button>
+            <button type="button" data-dash-tab="p-plan" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              My Plan &amp; Plan Rescue
+            </button>
+            <button type="button" data-dash-tab="p-dna" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Festival DNA
+            </button>
+            <button type="button" data-dash-tab="p-rewards" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Rewards &amp; Festival Passport
+            </button>
+            <button type="button" data-dash-tab="p-leaderboard" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Participant Leaderboard
+            </button>
+            <button type="button" data-dash-tab="p-discover" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Beyond the Hype &amp; Browse
+            </button>
+          {% elif current_user.role == 'organizer' %}
+            <button type="button" data-dash-tab="o-events" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-[#23162B] text-white">
+              My Managed Events &amp; Seat Pulse
+            </button>
+            <button type="button" data-dash-tab="o-create" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Create Event + No-Clash Guardian
+            </button>
+            <button type="button" data-dash-tab="o-roster" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Participant Roster &amp; Check-In
+            </button>
+            <button type="button" data-dash-tab="o-passes" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Achievement Pass Builder
+            </button>
+            <button type="button" data-dash-tab="o-performance" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Reward Performance
+            </button>
+            <button type="button" data-dash-tab="o-echo" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Event Echo (Post-Event Recaps)
+            </button>
+          {% elif current_user.role == 'admin' %}
+            <button type="button" data-dash-tab="a-overview" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-[#23162B] text-white">
+              Platform Oversight &amp; Approvals
+            </button>
+            <button type="button" data-dash-tab="a-festivals" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Festivals &amp; Campus Venues
+            </button>
+            <button type="button" data-dash-tab="a-vouchers" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Rewards &amp; Vouchers
+            </button>
+            <button type="button" data-dash-tab="a-leaderboard" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Platform Leaderboard
+            </button>
+            <button type="button" data-dash-tab="a-users" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              User &amp; Role Management
+            </button>
+            <button type="button" data-dash-tab="a-sponsors" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Sponsors &amp; Sponsorships
+            </button>
+            <button type="button" data-dash-tab="o-echo" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#47384F] hover:bg-[#F3ECE1]">
+              Event Echo Recaps
+            </button>
+          {% endif %}
+
+          <!-- Dedicated Profile & Settings Tab (Available for all users) -->
+          <button type="button" data-dash-tab="u-profile" class="dash-nav-btn w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[#C85A32] hover:bg-[#FBECE6] flex items-center justify-between">
+            <span>My Profile &amp; Settings</span>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-[#FBECE6] text-[#C85A32] font-bold">Avatar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Platform Pulse Summary Card -->
+      <div class="bg-[#F3ECE1] rounded-2xl border border-[#E4D9C8] p-5 space-y-3">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-[#76667E]">Live Platform Totals</p>
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div class="bg-white p-3 rounded-xl border border-[#E4D9C8]">
+            <span class="text-[#76667E] block">Festivals</span>
+            <strong id="statTotalFestivals" class="text-lg serif-heading text-[#23162B]">—</strong>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-[#E4D9C8]">
+            <span class="text-[#76667E] block">Live Events</span>
+            <strong id="statTotalEvents" class="text-lg serif-heading text-[#23162B]">—</strong>
+          </div>
+          <div class="bg-white p-3 rounded-xl border border-[#E4D9C8] col-span-2">
+            <span class="text-[#76667E] block">Confirmed Registrations</span>
+            <strong id="statTotalRegistrations" class="text-lg serif-heading text-[#C85A32]">—</strong>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Role Content Area -->
+    <main class="lg:col-span-9 space-y-8">
+
+      <!-- ====================================================================
+           PARTICIPANT SECTIONS
+           ==================================================================== -->
+      <!-- 1. Participant Registrations -->
+      <section id="panel-p-overview" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E4D9C8]">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-widest text-[#C85A32]">Festival Companion</p>
+              <h1 class="text-2xl sm:text-3xl serif-heading mt-1">
+                Hello, <span id="welcomeFirstName">{{ current_user.full_name.split(' ')[0] }}</span> — here are your festival passes
+              </h1>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" data-switch-tab="u-profile" class="btn btn-outline text-xs">
+                Update Profile Icon
+              </button>
+              <button type="button" data-switch-tab="p-discover" class="btn btn-primary text-xs">
+                + Book Another Experience
+              </button>
+            </div>
+          </div>
+
+          <div id="participantRegistrationsList" class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-6">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Participant Plan & Plan Rescue -->
+      <section id="panel-p-plan" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E4D9C8]">
+            <div>
+              <span class="inline-block px-3 py-1 rounded-full bg-[#FBECE6] text-[#C85A32] text-xs font-bold uppercase tracking-wider">
+                Signature Feature · Plan Rescue
+              </span>
+              <h2 class="text-2xl sm:text-3xl serif-heading mt-2">My Personal Festival Itinerary</h2>
+              <p class="text-sm text-[#47384F] mt-1">
+                Automatic overlap detection checks your saved events and suggests conflict-free alternatives from the same festival.
+              </p>
+            </div>
+            <div id="planRescueStatusBadge" class="px-4 py-2 rounded-full text-xs font-bold"></div>
+          </div>
+
+          <!-- Conflict Warning & One-Click Swap Box -->
+          <div id="planRescueConflictsBox" class="mt-6 space-y-4"></div>
+
+          <!-- Saved Itinerary Timeline -->
+          <div id="participantItineraryList" class="mt-6 space-y-4"></div>
+        </div>
+      </section>
+
+      <!-- 3. Participant Festival DNA & Festival Passport -->
+      <section id="panel-p-dna" class="dash-panel space-y-6 hidden">
+        <div class="rounded-3xl bg-[#23162B] text-[#FAF6F0] p-6 sm:p-8 border border-[#47384F] shadow-lg">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <span class="text-xs font-mono uppercase tracking-widest text-[#FDF3E1]">
+                Signature Feature · Festival DNA Recap
+              </span>
+              <h2 id="dnaPersonaTitle" class="text-3xl sm:text-4xl serif-heading text-white mt-2"></h2>
+              <p id="dnaPersonaNote" class="text-sm text-[#E4D9C8] mt-2 max-w-2xl"></p>
+            </div>
+            <div class="flex gap-4 shrink-0">
+              <div class="bg-white/10 px-4 py-3 rounded-2xl text-center">
+                <span class="block text-2xl serif-heading text-white" id="dnaRegCount">0</span>
+                <span class="text-[11px] text-[#E4D9C8]">Registered</span>
+              </div>
+              <div class="bg-white/10 px-4 py-3 rounded-2xl text-center">
+                <span class="block text-2xl serif-heading text-[#FDF3E1]" id="dnaVerifiedCount">0</span>
+                <span class="text-[11px] text-[#E4D9C8]">Verified Attended</span>
+              </div>
+              <div class="bg-white/10 px-4 py-3 rounded-2xl text-center">
+                <span class="block text-2xl serif-heading text-[#C85A32]" id="dnaCatCount">0</span>
+                <span class="text-[11px] text-[#E4D9C8]">Categories</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="dnaCategoryBreakdown" class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/15"></div>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-widest text-[#2B6E63]">Signature Feature · Festival Passport</p>
+              <h3 class="text-2xl serif-heading mt-1">Your Exploration Stamps</h3>
+              <p class="text-xs text-[#76667E] mt-1">
+                Derived from real registrations and organizer-verified check-ins.
+              </p>
+            </div>
+            <span id="passportProgressBadge" class="px-3.5 py-1.5 rounded-full bg-[#E5F2EF] text-[#2B6E63] text-xs font-bold"></span>
+          </div>
+
+          <div id="passportStampsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+      </section>
+
+      <!-- 3b. Participant Rewards & Festival Passport -->
+      <section id="panel-p-rewards" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E4D9C8]">
+            <div>
+              <span class="inline-block px-3 py-1 rounded-full bg-[#E5F2EF] text-[#2B6E63] text-xs font-bold uppercase tracking-wider">
+                Festival Rewards &amp; Passport
+              </span>
+              <h2 class="text-2xl sm:text-3xl serif-heading mt-2">My Festival Journey &amp; Claimed Rewards</h2>
+              <p class="text-sm text-[#47384F] mt-1">
+                Awards are earned strictly through verified event attendance and participation milestones.
+              </p>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="bg-[#FAF6F0] border border-[#E4D9C8] px-4 py-2.5 rounded-2xl text-center">
+                <span id="rewardsStandingPoints" class="block text-2xl serif-heading text-[#C85A32]">0</span>
+                <span class="text-[10px] uppercase font-bold tracking-wider text-[#76667E]">Journey Points</span>
+              </div>
+              <div class="bg-[#FAF6F0] border border-[#E4D9C8] px-4 py-2.5 rounded-2xl text-center">
+                <span id="rewardsStandingRank" class="block text-2xl serif-heading text-[#23162B]">#—</span>
+                <span class="text-[10px] uppercase font-bold tracking-wider text-[#76667E]">Leaderboard</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Earned Badges Section -->
+          <div class="pt-6">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-xl serif-heading">Earned Badges &amp; Accolades</h3>
+                <p class="text-xs text-[#76667E]">Distinctive badges unlocked by meeting verified participation milestones.</p>
+              </div>
+              <span id="earnedBadgesCountBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-[#FAF6F0] border border-[#E4D9C8] text-[#47384F]">0 Badges</span>
+            </div>
+            <div id="rewardsBadgesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Collected Stamps Section -->
+          <div class="pt-8 mt-8 border-t border-[#E4D9C8]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div>
+                <h3 class="text-xl serif-heading">Exploration Stamps &amp; Physical Check-Ins</h3>
+                <p class="text-xs text-[#76667E]">Digital ink stamps gathered at physical campus venue check-ins.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="inline-flex p-1 rounded-full bg-[#FAF6F0] border border-[#CEBFA8] text-xs font-semibold">
+                  <button type="button" data-stamp-filter="verified" class="stamp-tab-btn active px-3 py-1 rounded-full bg-[#23162B] text-white transition">
+                    Verified Check-Ins (<span id="verifiedStampsCount">0</span>)
+                  </button>
+                  <button type="button" data-stamp-filter="awaiting" class="stamp-tab-btn px-3 py-1 rounded-full text-[#47384F] hover:bg-white transition">
+                    Awaiting Check-In (<span id="awaitingStampsCount">0</span>)
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="rewardsStampsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Achievements in Progress -->
+          <div class="pt-8 mt-8 border-t border-[#E4D9C8]">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h3 class="text-xl serif-heading">Milestones &amp; Available Achievements</h3>
+                <p class="text-xs text-[#76667E]">Track your progress towards unlockable badges and festival honors.</p>
+              </div>
+              <span id="availableAchievementsCountBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-[#FAF6F0] border border-[#E4D9C8] text-[#47384F]">0 Available</span>
+            </div>
+            <div id="rewardsProgressList" class="space-y-3">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Issued Vouchers Section -->
+          <div class="pt-8 mt-8 border-t border-[#E4D9C8]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
+              <div>
+                <h3 class="text-xl serif-heading">My Issued Vouchers &amp; Perks</h3>
+                <p class="text-xs text-[#76667E]">Academic demonstration vouchers issued by organizers and administrators.</p>
+              </div>
+              <!-- Voucher Status Filter Tabs -->
+              <div class="inline-flex p-1 rounded-full bg-[#FAF6F0] border border-[#CEBFA8] text-xs font-semibold gap-1">
+                <button type="button" data-voucher-filter="all" class="voucher-tab-btn active px-3.5 py-1.5 rounded-full bg-[#23162B] text-white transition">
+                  All Vouchers
+                </button>
+                <button type="button" data-voucher-filter="active" class="voucher-tab-btn px-3.5 py-1.5 rounded-full text-[#47384F] hover:bg-white transition">
+                  Available (<span id="vouchCountActive">0</span>)
+                </button>
+                <button type="button" data-voucher-filter="redeemed" class="voucher-tab-btn px-3.5 py-1.5 rounded-full text-[#47384F] hover:bg-white transition">
+                  Redeemed (<span id="vouchCountRedeemed">0</span>)
+                </button>
+                <button type="button" data-voucher-filter="expired" class="voucher-tab-btn px-3.5 py-1.5 rounded-full text-[#47384F] hover:bg-white transition">
+                  Expired (<span id="vouchCountExpired">0</span>)
+                </button>
+              </div>
+            </div>
+            <div id="rewardsVouchersGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Rendered dynamically as collectible tickets -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3c. Participant Leaderboard -->
+      <section id="panel-p-leaderboard" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E4D9C8]">
+            <div>
+              <span class="inline-block px-3 py-1 rounded-full bg-[#FAF6F0] text-[#76667E] border border-[#E4D9C8] text-xs font-bold uppercase tracking-wider">
+                Campus Festival Community
+              </span>
+              <h2 class="text-2xl sm:text-3xl serif-heading mt-2">Participant Leaderboard</h2>
+              <p class="text-sm text-[#47384F] mt-1">
+                Transparent ranking calculated from verified event attendance, earned achievements, and feedback.
+              </p>
+            </div>
+            <div class="flex items-center gap-3">
+              <button id="openLeaderboardRulesBtn" type="button" class="btn btn-outline text-xs py-2 px-3 flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-[#C85A32]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>Scoring Rules</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Personal Standing Highlight Banner -->
+          <div id="leaderboardPersonalRankBanner" class="mt-6 p-4 rounded-2xl bg-gradient-to-r from-[#F3ECE1] via-[#FAF6F0] to-[#FBECE6] border border-[#CEBFA8] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-full bg-[#23162B] text-white flex items-center justify-center text-lg font-bold serif-heading shrink-0">
+                <span id="lbBannerUserInitials">AM</span>
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-bold tracking-wider text-[#C85A32] block">Your Standing</span>
+                <h4 id="lbBannerUserName" class="text-base font-bold text-[#23162B]">—</h4>
+                <p id="lbBannerUserCity" class="text-xs text-[#76667E]">Kolkata Campus</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-4 text-xs">
+              <div class="bg-white px-3.5 py-2 rounded-xl border border-[#E4D9C8] text-center">
+                <span class="text-[10px] text-[#76667E] block uppercase font-bold">Your Rank</span>
+                <strong id="lbBannerUserRank" class="text-lg font-bold text-[#23162B]">#—</strong>
+              </div>
+              <div class="bg-white px-3.5 py-2 rounded-xl border border-[#E4D9C8] text-center">
+                <span class="text-[10px] text-[#76667E] block uppercase font-bold">Total Points</span>
+                <strong id="lbBannerUserPoints" class="text-lg font-bold text-[#C85A32]">0</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top-3 Podium Layout -->
+          <div class="pt-8">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-[#76667E] mb-3 text-center sm:text-left">Podium Leaders</h3>
+            <div id="leaderboardPodiumRow" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+              <!-- Dynamically populated top 3 -->
+            </div>
+          </div>
+
+          <!-- Category and Festival Filters -->
+          <div class="pt-8 mt-8 border-t border-[#E4D9C8] flex flex-wrap items-center justify-between gap-3">
+            <div id="leaderboardCategoryFilterPills" class="flex flex-wrap gap-2 text-xs">
+              <button type="button" data-lb-category="" class="lb-cat-btn px-3.5 py-1.5 rounded-full font-semibold border bg-[#23162B] text-white border-[#23162B]">All Categories</button>
+              <button type="button" data-lb-category="Technical" class="lb-cat-btn px-3.5 py-1.5 rounded-full font-semibold border bg-white text-[#47384F] border-[#CEBFA8] hover:border-[#23162B]">Technical</button>
+              <button type="button" data-lb-category="Cultural" class="lb-cat-btn px-3.5 py-1.5 rounded-full font-semibold border bg-white text-[#47384F] border-[#CEBFA8] hover:border-[#23162B]">Cultural</button>
+              <button type="button" data-lb-category="Music" class="lb-cat-btn px-3.5 py-1.5 rounded-full font-semibold border bg-white text-[#47384F] border-[#CEBFA8] hover:border-[#23162B]">Music</button>
+              <button type="button" data-lb-category="Workshops" class="lb-cat-btn px-3.5 py-1.5 rounded-full font-semibold border bg-white text-[#47384F] border-[#CEBFA8] hover:border-[#23162B]">Workshops</button>
+              <button type="button" data-lb-category="Gaming" class="lb-cat-btn px-3.5 py-1.5 rounded-full font-semibold border bg-white text-[#47384F] border-[#CEBFA8] hover:border-[#23162B]">Gaming</button>
+              <button type="button" data-lb-category="Sports" class="lb-cat-btn px-3.5 py-1.5 rounded-full font-semibold border bg-white text-[#47384F] border-[#CEBFA8] hover:border-[#23162B]">Sports</button>
+              <button type="button" data-lb-category="Community" class="lb-cat-btn px-3.5 py-1.5 rounded-full font-semibold border bg-white text-[#47384F] border-[#CEBFA8] hover:border-[#23162B]">Community</button>
+              <button type="button" data-lb-category="Entrepreneurship" class="lb-cat-btn px-3.5 py-1.5 rounded-full font-semibold border bg-white text-[#47384F] border-[#CEBFA8] hover:border-[#23162B]">Entrepreneurship</button>
+            </div>
+            <div>
+              <select id="leaderboardFestivalSelect" class="text-xs px-3 py-2 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8]">
+                <option value="">All Festivals</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Leaderboard Table for Rank 4+ -->
+          <div class="overflow-x-auto pt-4">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-[#E4D9C8] text-[#76667E] uppercase tracking-wider">
+                  <th class="py-3 px-3 w-16">Rank</th>
+                  <th class="py-3 px-3">Participant</th>
+                  <th class="py-3 px-3">Primary Focus</th>
+                  <th class="py-3 px-3 text-center">Verified Check-Ins</th>
+                  <th class="py-3 px-3 text-center">Badges</th>
+                  <th class="py-3 px-3 text-right">Points</th>
+                </tr>
+              </thead>
+              <tbody id="participantLeaderboardTableBody" class="divide-y divide-[#E4D9C8]">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Participant Discover & Beyond the Hype -->
+      <section id="panel-p-discover" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <h2 class="text-2xl serif-heading mb-2">Recommended for You — Beyond the Hype</h2>
+          <p class="text-sm text-[#47384F] mb-6">
+            Book directly or add experiences to your personal itinerary.
+          </p>
+          <div id="dashBeyondHypeGrid" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
+
+          <h3 class="text-xl serif-heading mt-10 mb-4 pt-6 border-t border-[#E4D9C8]">All Open Published Events</h3>
+          <div id="dashAllEventsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           USER PROFILE & SETTINGS TAB (AVATAR ICON UPDATER & PREFERENCES)
+           ==================================================================== -->
+      <section id="panel-u-profile" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="pb-6 border-b border-[#E4D9C8]">
+            <span class="inline-block px-3 py-1 rounded-full bg-[#FBECE6] text-[#C85A32] text-xs font-bold uppercase tracking-wider">
+              Account &amp; Profile Settings
+            </span>
+            <h2 class="text-2xl sm:text-3xl serif-heading mt-2">My Profile Picture &amp; Personal Details</h2>
+            <p class="text-sm text-[#47384F] mt-1">
+              At first, your account uses a default round user icon. Upload a photo or choose a portrait below—once saved, your face photo appears in the top-right user icon across both the Dashboard and the Landing Page!
+            </p>
+          </div>
+
+          <form id="userProfileForm" class="space-y-6 pt-6">
+            <!-- Avatar Selection & Upload Box -->
+            <div class="bg-[#F3ECE1] p-5 rounded-2xl border border-[#E4D9C8] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div class="flex items-center gap-4">
+                <div class="user-avatar-btn w-20 h-20 border-2 border-[#C85A32] bg-white shrink-0" id="profilePreviewCircle">
+                  {% if current_user.avatar_url %}
+                    <img id="profilePreviewImg" src="{{ current_user.avatar_url }}" alt="Profile preview" />
+                  {% else %}
+                    <svg id="profilePreviewDefaultSvg" class="w-9 h-9 text-[#23162B]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                  {% endif %}
+                </div>
+                <div>
+                  <span id="profilePhotoStatusBadge" class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full {{ 'bg-[#E5F2EF] text-[#2B6E63]' if current_user.avatar_url else 'bg-white text-[#76667E]' }}">
+                    {{ 'Custom Face Photo Active' if current_user.avatar_url else 'Default User Icon (No Photo Set Yet)' }}
+                  </span>
+                  <h3 class="text-lg serif-heading mt-1">Top-Right Header User Icon</h3>
+                  <p class="text-xs text-[#47384F]">Upload from your device or click a portrait preset below to test immediately.</p>
+                </div>
+              </div>
+
+              <!-- Upload & Preset Buttons -->
+              <div class="flex flex-wrap items-center gap-2.5">
+                <label class="btn btn-primary text-xs py-2 px-4 cursor-pointer">
+                  <span>Upload Photo from Device</span>
+                  <input id="profileAvatarFileInput" type="file" accept="image/*" class="hidden" />
+                </label>
+                <button type="button" data-preset-avatar="/static/images/avatar_portrait_2.jpg" class="preset-avatar-btn flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-[#CEBFA8] hover:border-[#C85A32] text-xs font-semibold">
+                  <img src="/static/images/avatar_portrait_2.jpg" alt="Portrait 1" class="w-6 h-6 rounded-full object-cover" />
+                  <span>Use Portrait A</span>
+                </button>
+                <button type="button" data-preset-avatar="/static/images/avatar_portrait_1.jpg" class="preset-avatar-btn flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-[#CEBFA8] hover:border-[#C85A32] text-xs font-semibold">
+                  <img src="/static/images/avatar_portrait_1.jpg" alt="Portrait 2" class="w-6 h-6 rounded-full object-cover" />
+                  <span>Use Portrait B</span>
+                </button>
+                <button type="button" id="clearAvatarBtn" class="btn btn-outline text-xs py-1.5 px-3">
+                  Reset to Default Icon
+                </button>
+              </div>
+            </div>
+
+            <input id="profileAvatarUrlInput" type="hidden" value="{{ current_user.avatar_url or '' }}" />
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Full Name</label>
+                <input id="profileFullName" type="text" required value="{{ current_user.full_name }}" class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Email Address (Verified)</label>
+                <input type="email" disabled value="{{ current_user.email }}" class="w-full px-3.5 py-2.5 rounded-xl bg-[#F3ECE1] border border-[#E4D9C8] text-sm text-[#76667E]" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Mobile / WhatsApp Number</label>
+                <input id="profilePhone" type="text" value="{{ current_user.phone or '' }}" placeholder="+91 98300 45120" class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Campus / City</label>
+                <input id="profileCity" type="text" value="{{ current_user.city or 'Kolkata' }}" placeholder="Kolkata · Salt Lake Campus" class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Short Festival Bio</label>
+              <textarea id="profileBio" rows="2" placeholder="Tell organizers and fellow festival-goers what kind of experiences you love..." class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm">{{ current_user.bio or '' }}</textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-2">
+                Preferred Event Categories (Powers Beyond the Hype Recommendations)
+              </label>
+              <div id="profileCategoriesBox" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#E4D9C8]">
+              <a href="/" class="btn btn-outline text-xs">&larr; Return to Landing Page to Verify Top-Right Icon</a>
+              <button type="submit" class="btn btn-primary text-sm py-2.5 px-6">
+                Save Profile &amp; Update User Icon
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           ORGANIZER SECTIONS
+           ==================================================================== -->
+      <!-- 1. Organizer Managed Events & Seat Pulse -->
+      <section id="panel-o-events" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E4D9C8]">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-widest text-[#C85A32]">Organizer Studio</p>
+              <h1 class="text-2xl sm:text-3xl serif-heading mt-1">My Managed Festival Events &amp; Seat Pulse</h1>
+            </div>
+            <button type="button" data-switch-tab="o-create" class="btn btn-primary text-xs">
+              + Create New Event
+            </button>
+          </div>
+          <div id="organizerEventsList" class="space-y-4 pt-6"></div>
+        </div>
+      </section>
+
+      <!-- 2. Organizer Create Event + No-Clash Guardian -->
+      <section id="panel-o-create" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <span class="inline-block px-3 py-1 rounded-full bg-[#E5F2EF] text-[#2B6E63] text-xs font-bold uppercase tracking-wider">
+            Signature Feature · No-Clash Guardian
+          </span>
+          <h2 class="text-2xl sm:text-3xl serif-heading mt-2">Schedule &amp; Publish an Event</h2>
+          <p class="text-sm text-[#47384F] mt-1 mb-6">
+            Before publishing, run <strong>No-Clash Guardian</strong> to verify that your requested seat count fits the physical venue capacity (3NF) and that no overlapping event occupies the venue or your schedule.
+          </p>
+
+          <div id="guardianResultBox" class="hidden mb-6 p-4 rounded-2xl border"></div>
+
+          <form id="createEventForm" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Parent Festival</label>
+                <select id="orgFestivalId" required class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm"></select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Category</label>
+                <select id="orgCategoryId" required class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm"></select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Campus Venue (with max capacity)</label>
+                <select id="orgVenueId" required class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm"></select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Event Title</label>
+                <input id="orgEventName" type="text" required placeholder="e.g., Late-Evening Sitar & Synth Jam" class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Short Subtitle</label>
+                <input id="orgEventSubtitle" type="text" placeholder="Acoustic strings meet modular electronics" class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Description</label>
+              <textarea id="orgEventDesc" rows="3" required placeholder="Describe what participants will experience or build..." class="w-full px-3.5 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Start Date &amp; Time</label>
+                <input id="orgStartAt" type="datetime-local" required value="2026-11-12T18:00" class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-xs" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">End Date &amp; Time</label>
+                <input id="orgEndAt" type="datetime-local" required value="2026-11-12T20:00" class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-xs" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Registration Fee (₹)</label>
+                <input id="orgTicketPrice" type="number" min="0" step="10" value="100" required class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">Max Seats</label>
+                <input id="orgMaxSeats" type="number" min="1" value="35" required class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm" />
+              </div>
+            <div>
+              <label for="orgPosterFile" class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1">
+                Event Poster (Optional Upload)
+              </label>
+              <input
+                id="orgPosterFile"
+                type="file"
+                accept="image/*"
+                class="w-full text-xs file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#23162B] file:text-white hover:file:bg-[#C85A32] cursor-pointer"
+              />
+              <p class="text-[11px] text-[#76667E] mt-1">
+                Uploaded posters are persisted via <code>/api/media/upload</code> in Supabase Storage when configured, or default to curated local festival photography. The resulting poster path is persisted in Neon.
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#E4D9C8]">
+              <button id="runGuardianCheckBtn" type="button" class="btn btn-outline text-xs">
+                Run No-Clash Guardian Check
+              </button>
+              <button type="submit" class="btn btn-primary text-xs">
+                Validate &amp; Publish Event
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- 3. Organizer Participant Roster & Check-In -->
+      <section id="panel-o-roster" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <h2 class="text-2xl serif-heading mb-1">Participant Registrations &amp; Attendance Check-In</h2>
+          <p class="text-sm text-[#47384F] mb-6">
+            Verify participant check-ins at the venue door to update Event Echo attendance rates and unlock participant Festival Passport stamps.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-[#E4D9C8] text-[#76667E] uppercase tracking-wider">
+                  <th class="py-3 px-3">Pass Code</th>
+                  <th class="py-3 px-3">Participant</th>
+                  <th class="py-3 px-3">Event</th>
+                  <th class="py-3 px-3">Tier &amp; Status</th>
+                  <th class="py-3 px-3 text-right">Attendance Action</th>
+                </tr>
+              </thead>
+              <tbody id="organizerRosterTableBody" class="divide-y divide-[#E4D9C8]"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Organizer / Admin Event Echo (Post-Event Recaps) -->
+      <section id="panel-o-echo" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <span class="inline-block px-3 py-1 rounded-full bg-[#F7E8ED] text-[#8C2D4B] text-xs font-bold uppercase tracking-wider">
+            Signature Feature · Event Echo
+          </span>
+          <h2 class="text-2xl sm:text-3xl serif-heading mt-2">Post-Event Recaps &amp; Verified Attendance</h2>
+          <p class="text-sm text-[#47384F] mt-1 mb-6">
+            Automatically aggregated from confirmed registrations, verified check-ins, and participant ratings.
+          </p>
+          <div id="eventEchoList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </div>
+      </section>
+
+      <!-- 5. Organizer Achievement Pass Builder -->
+      <section id="panel-o-passes" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E4D9C8]">
+            <div>
+              <span class="inline-block px-3 py-1 rounded-full bg-[#E5F2EF] text-[#2B6E63] text-xs font-bold uppercase tracking-wider">
+                Optional Feature · Pass Builder
+              </span>
+              <h2 class="text-2xl sm:text-3xl serif-heading mt-2">Achievement Pass Builder</h2>
+              <p class="text-sm text-[#47384F] mt-1">
+                Optionally design custom achievement passes for your authorized events or festivals. Participation is opt-in for participants.
+              </p>
+            </div>
+            <button id="toggleCreatePassFormBtn" type="button" class="btn btn-primary text-xs">
+              + Create New Pass
+            </button>
+          </div>
+
+          <!-- Pass Builder Form -->
+          <div id="createPassFormContainer" class="bg-[#FAF6F0] p-6 rounded-2xl border border-[#E4D9C8] mt-6">
+            <h3 class="text-lg serif-heading mb-4 text-[#23162B]">Design Custom Pass &amp; Reward</h3>
+            <form id="organizerPassForm" class="space-y-4 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Pass Title</label>
+                  <input id="passTitleInput" type="text" required placeholder="e.g. Master Hacker Quest 2026" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-sm" />
+                </div>
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Authorized Event Scope</label>
+                  <select id="passTargetEventSelect" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-sm">
+                    <option value="">Select an Authorized Event...</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Description</label>
+                <textarea id="passDescriptionInput" rows="2" required placeholder="Describe the achievement requirement and what participants will earn..." class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-sm"></textarea>
+              </div>
+
+              <!-- Artwork Picker -->
+              <div>
+                <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-2">Select Badge Artwork Design</label>
+                <div id="passArtworkPicker" class="grid grid-cols-3 sm:grid-cols-6 gap-3">
+                  <!-- Artwork options rendered dynamically -->
+                </div>
+                <input id="selectedBadgeArtInput" type="hidden" value="/static/images/badges/badge_tech_trailblazer.svg" />
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Achievement Condition</label>
+                  <select id="passConditionTypeSelect" class="w-full px-3 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-xs">
+                    <option value="attend_single_event">Complete Selected Event Check-in</option>
+                    <option value="attend_n_festival_events">Attend N Festival Events</option>
+                    <option value="attend_category_events">Attend Specified Category Events</option>
+                    <option value="milestone_checkins">Milestone Attendance Count</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Target Count</label>
+                  <input id="passTargetCountInput" type="number" min="1" max="10" value="1" class="w-full px-3 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-xs" />
+                </div>
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Optional Admin Voucher Link</label>
+                  <select id="passVoucherCampaignSelect" class="w-full px-3 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-xs">
+                    <option value="">No Voucher Linked</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-4 border-t border-[#E4D9C8]">
+                <label class="flex items-center gap-2 cursor-pointer text-xs font-semibold">
+                  <input id="passIsActiveCheckbox" type="checkbox" checked class="rounded border-[#CEBFA8] text-[#C85A32] focus:ring-[#C85A32]" />
+                  <span>Publish as Active (unchecked saves as Draft)</span>
+                </label>
+                <div class="flex gap-2">
+                  <button type="submit" class="btn btn-primary text-xs">Save &amp; Publish Pass</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Organizer's Existing Passes List -->
+          <div class="pt-8">
+            <h3 class="text-xl serif-heading mb-4">My Created Achievement Passes</h3>
+            <div id="organizerPassesList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Organizer Reward Performance -->
+      <section id="panel-o-performance" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="pb-6 border-b border-[#E4D9C8]">
+            <p class="text-xs font-bold uppercase tracking-widest text-[#C85A32]">Engagement Analytics</p>
+            <h2 class="text-2xl sm:text-3xl serif-heading mt-1">Reward &amp; Pass Performance</h2>
+            <p class="text-sm text-[#47384F] mt-1">
+              Performance metrics for achievement passes linked to your managed events.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6">
+            <div class="bg-[#FAF6F0] p-4 rounded-2xl border border-[#E4D9C8]">
+              <span class="text-xs text-[#76667E] block uppercase font-bold tracking-wider">Active Passes</span>
+              <strong id="orgPerfActivePasses" class="text-2xl serif-heading text-[#23162B]">0</strong>
+            </div>
+            <div class="bg-[#FAF6F0] p-4 rounded-2xl border border-[#E4D9C8]">
+              <span class="text-xs text-[#76667E] block uppercase font-bold tracking-wider">Total Earners</span>
+              <strong id="orgPerfTotalEarners" class="text-2xl serif-heading text-[#2B6E63]">0</strong>
+            </div>
+            <div class="bg-[#FAF6F0] p-4 rounded-2xl border border-[#E4D9C8]">
+              <span class="text-xs text-[#76667E] block uppercase font-bold tracking-wider">Vouchers Distributed</span>
+              <strong id="orgPerfVouchersDistributed" class="text-2xl serif-heading text-[#C85A32]">0</strong>
+            </div>
+          </div>
+
+          <div class="pt-8">
+            <h3 class="text-lg serif-heading mb-4">Recent Participant Earners</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-[#E4D9C8] text-[#76667E] uppercase tracking-wider">
+                    <th class="py-3 px-3">Pass &amp; Badge</th>
+                    <th class="py-3 px-3">Participant</th>
+                    <th class="py-3 px-3">Event</th>
+                    <th class="py-3 px-3 text-right">Awarded At</th>
+                  </tr>
+                </thead>
+                <tbody id="orgRewardEarnersTableBody" class="divide-y divide-[#E4D9C8]">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           ADMINISTRATOR SECTIONS
+           ==================================================================== -->
+      <section id="panel-a-overview" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <p class="text-xs font-bold uppercase tracking-widest text-[#8C2D4B]">Administrator Directorate</p>
+          <h1 class="text-2xl sm:text-3xl serif-heading mt-1 mb-6">Event Oversight &amp; Publication Queue</h1>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-[#E4D9C8] text-[#76667E] uppercase tracking-wider">
+                  <th class="py-3 px-3">Event &amp; Festival</th>
+                  <th class="py-3 px-3">Organizer &amp; Venue</th>
+                  <th class="py-3 px-3">Seat Pulse</th>
+                  <th class="py-3 px-3">Status</th>
+                  <th class="py-3 px-3 text-right">Admin Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminEventsTableBody" class="divide-y divide-[#E4D9C8]"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-a-festivals" class="dash-panel space-y-6 hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6">
+            <h3 class="text-xl serif-heading mb-4">Launch New Festival</h3>
+            <form id="adminFestivalForm" class="space-y-3 text-xs">
+              <input id="admFestName" type="text" required placeholder="Festival Name (e.g., Vasant Arts Week 2027)" class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8]" />
+              <input id="admFestTheme" type="text" required placeholder="Theme (e.g., Botanical Print & Folk Acoustic)" class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8]" />
+              <div class="grid grid-cols-2 gap-2">
+                <input id="admFestStart" type="date" required value="2026-12-04" class="w-full px-3 py-2 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8]" />
+                <input id="admFestEnd" type="date" required value="2026-12-06" class="w-full px-3 py-2 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8]" />
+              </div>
+              <input id="admFestBudget" type="number" min="0" value="200000" placeholder="Budget (₹)" class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8]" />
+              <button type="submit" class="btn btn-primary w-full text-xs">Create Festival</button>
+            </form>
+          </div>
+
+          <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6">
+            <h3 class="text-xl serif-heading mb-4">Register Campus Venue (3NF Capacity)</h3>
+            <form id="adminVenueForm" class="space-y-3 text-xs">
+              <input id="admVenueName" type="text" required placeholder="Venue Name (e.g., Banyan South Courtyard)" class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8]" />
+              <input id="admVenueLocation" type="text" required placeholder="Building / Area" class="w-full px-3 py-2.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8]" />
+              <div class="grid grid-cols-2 gap-2">
+                <input id="admVenueType" type="text" required value="Auditorium" placeholder="Venue Type" class="w-full px-3 py-2 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8]" />
+                <input id="admVenueCap" type="number" min="1" required value="60" placeholder="Max Capacity" class="w-full px-3 py-2 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8]" />
+              </div>
+              <button type="submit" class="btn btn-sage w-full text-xs">Add Campus Venue</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6">
+          <h3 class="text-xl serif-heading mb-4">Registered Campus Venues</h3>
+          <div id="adminVenuesGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+        </div>
+      </section>
+
+      <section id="panel-a-users" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <h2 class="text-2xl serif-heading mb-2">User Accounts &amp; Role Assignments</h2>
+          <p class="text-xs text-[#76667E] mb-6">
+            Public signups default to <code>participant</code>. Administrators can promote verified staff or student leads to <code>organizer</code> or <code>admin</code> here.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-[#E4D9C8] text-[#76667E] uppercase tracking-wider">
+                  <th class="py-3 px-3">ID</th>
+                  <th class="py-3 px-3">Full Name</th>
+                  <th class="py-3 px-3">Email</th>
+                  <th class="py-3 px-3">Current Role</th>
+                  <th class="py-3 px-3 text-right">Update Role</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTableBody" class="divide-y divide-[#E4D9C8]"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-a-sponsors" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 class="text-2xl serif-heading">Festival Sponsors &amp; Contributions</h2>
+              <p class="text-xs text-[#76667E]">Many-to-many bridge between partner organizations and campus festivals.</p>
+            </div>
+            <div class="px-4 py-2 rounded-xl bg-[#FDF3E1] border border-[#D48C28]/40 text-xs font-bold text-[#23162B]">
+              Total Confirmed Sponsorship: <span id="adminTotalSponsorship">₹0</span>
+            </div>
+          </div>
+
+          <form id="adminSponsorshipForm" class="grid grid-cols-1 sm:grid-cols-5 gap-3 bg-[#F3ECE1] p-4 rounded-2xl border border-[#E4D9C8] mb-6 text-xs">
+            <input id="spName" type="text" required placeholder="Sponsor Organization" class="px-3 py-2 rounded-lg bg-white border border-[#CEBFA8]" />
+            <input id="spIndustry" type="text" required placeholder="Industry (e.g., Audio Tech)" class="px-3 py-2 rounded-lg bg-white border border-[#CEBFA8]" />
+            <select id="spFestivalId" required class="px-3 py-2 rounded-lg bg-white border border-[#CEBFA8]"></select>
+            <input id="spAmount" type="number" min="1000" step="5000" value="50000" required placeholder="Amount (₹)" class="px-3 py-2 rounded-lg bg-white border border-[#CEBFA8]" />
+            <button type="submit" class="btn btn-primary text-xs">Record Sponsorship</button>
+          </form>
+
+          <div id="adminSponsorshipsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+      </section>
+
+      <!-- 7. Admin Rewards & Vouchers Management -->
+      <section id="panel-a-vouchers" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E4D9C8]">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-widest text-[#8C2D4B]">Central Inventory Oversight</p>
+              <h2 class="text-2xl sm:text-3xl serif-heading mt-1">Platform Voucher Campaigns &amp; Distribution</h2>
+              <p class="text-sm text-[#47384F] mt-1">
+                Real database counts for platform discount perks, VIP passes, and workshop tokens.
+              </p>
+            </div>
+            <button id="toggleAdminCampaignFormBtn" type="button" class="btn btn-primary text-xs">
+              + Launch Voucher Campaign
+            </button>
+          </div>
+
+          <!-- Summary Metrics Cards -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-6">
+            <div class="bg-[#FAF6F0] p-3.5 rounded-2xl border border-[#E4D9C8]">
+              <span class="text-[10px] text-[#76667E] block uppercase font-bold tracking-wider">Total Allocated</span>
+              <strong id="admMetricAllocated" class="text-xl serif-heading text-[#23162B]">0</strong>
+            </div>
+            <div class="bg-[#FAF6F0] p-3.5 rounded-2xl border border-[#E4D9C8]">
+              <span class="text-[10px] text-[#76667E] block uppercase font-bold tracking-wider">Total Issued</span>
+              <strong id="admMetricIssued" class="text-xl serif-heading text-[#C85A32]">0</strong>
+            </div>
+            <div class="bg-[#FAF6F0] p-3.5 rounded-2xl border border-[#E4D9C8]">
+              <span class="text-[10px] text-[#76667E] block uppercase font-bold tracking-wider">Redeemed</span>
+              <strong id="admMetricRedeemed" class="text-xl serif-heading text-[#2B6E63]">0</strong>
+            </div>
+            <div class="bg-[#FAF6F0] p-3.5 rounded-2xl border border-[#E4D9C8]">
+              <span class="text-[10px] text-[#76667E] block uppercase font-bold tracking-wider">Remaining</span>
+              <strong id="admMetricRemaining" class="text-xl serif-heading text-[#23162B]">0</strong>
+            </div>
+            <div class="bg-[#FAF6F0] p-3.5 rounded-2xl border border-[#E4D9C8]">
+              <span class="text-[10px] text-[#76667E] block uppercase font-bold tracking-wider">Expired</span>
+              <strong id="admMetricExpired" class="text-xl serif-heading text-[#76667E]">0</strong>
+            </div>
+            <div class="bg-[#FAF6F0] p-3.5 rounded-2xl border border-[#E4D9C8]">
+              <span class="text-[10px] text-[#76667E] block uppercase font-bold tracking-wider">Redemption Rate</span>
+              <strong id="admMetricRate" class="text-xl serif-heading text-[#8C2D4B]">0%</strong>
+            </div>
+          </div>
+
+          <!-- Campaign Creation Form -->
+          <div id="adminCampaignFormContainer" class="bg-[#FAF6F0] p-6 rounded-2xl border border-[#E4D9C8] mt-6">
+            <h3 class="text-lg serif-heading mb-4 text-[#23162B]">Create Academic Voucher Campaign</h3>
+            <form id="adminVoucherCampaignForm" class="space-y-4 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Campaign Title</label>
+                  <input id="admCampTitle" type="text" required placeholder="e.g. 50% Off Technical Hackathons" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-sm" />
+                </div>
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Voucher Type</label>
+                  <select id="admCampType" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-xs">
+                    <option value="percentage_discount">Percentage Discount</option>
+                    <option value="free_workshop">Free Workshop Entry</option>
+                    <option value="free_merch">Free Festival Merch</option>
+                    <option value="vip_access">VIP Stage Access</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Discount % (0 for perks)</label>
+                  <input id="admCampDiscount" type="number" min="0" max="100" value="50" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-sm" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Total Quantity Allocated</label>
+                  <input id="admCampQuantity" type="number" min="1" max="10000" value="100" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-sm" />
+                </div>
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Valid From</label>
+                  <input id="admCampValidFrom" type="date" required value="2026-10-26" class="w-full px-3 py-2 rounded-xl bg-white border border-[#CEBFA8] text-xs" />
+                </div>
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Expires At</label>
+                  <input id="admCampValidUntil" type="date" required value="2026-12-31" class="w-full px-3 py-2 rounded-xl bg-white border border-[#CEBFA8] text-xs" />
+                </div>
+                <div>
+                  <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Target Festival Scope</label>
+                  <select id="admCampFestivalSelect" class="w-full px-3 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-xs">
+                    <option value="">All Platform Festivals</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-bold uppercase tracking-wider text-[#47384F] mb-1">Reward Description / Terms</label>
+                <input id="admCampBenefit" type="text" required placeholder="e.g. 50% discount on any registration or free access token" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-[#CEBFA8] text-sm" />
+              </div>
+
+              <div class="flex justify-end pt-3 border-t border-[#E4D9C8]">
+                <button type="submit" class="btn btn-primary text-xs">Publish Voucher Campaign</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Active Campaigns Table -->
+          <div class="pt-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div>
+                <h3 class="text-xl serif-heading">Voucher Campaign Inventory</h3>
+                <p class="text-xs text-[#76667E]">Manage active allocations, inspection drawers, and participant redemption metrics.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <input
+                  id="admCampSearchInput"
+                  type="text"
+                  placeholder="Filter campaigns..."
+                  class="px-3 py-1.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-xs focus:outline-none focus:border-[#C85A32]"
+                />
+                <select id="admCampStatusFilter" class="px-3 py-1.5 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-xs">
+                  <option value="all">All Statuses</option>
+                  <option value="active">Active Only</option>
+                  <option value="expired">Expired</option>
+                </select>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-[#E4D9C8] text-[#76667E] uppercase tracking-wider">
+                    <th class="py-3 px-3">Campaign</th>
+                    <th class="py-3 px-3">Type &amp; Benefit</th>
+                    <th class="py-3 px-3 text-center">Allocated</th>
+                    <th class="py-3 px-3 text-center">Issued</th>
+                    <th class="py-3 px-3 text-center">Redeemed</th>
+                    <th class="py-3 px-3 text-center">Remaining</th>
+                    <th class="py-3 px-3">Valid Until</th>
+                    <th class="py-3 px-3">Status</th>
+                    <th class="py-3 px-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminVoucherCampaignsTableBody" class="divide-y divide-[#E4D9C8]">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Direct Issue Voucher to Participant Box -->
+          <div class="pt-8 mt-8 border-t border-[#E4D9C8]">
+            <h3 class="text-lg serif-heading mb-3">Direct Voucher Distribution</h3>
+            <form id="adminIssueVoucherForm" class="grid grid-cols-1 sm:grid-cols-4 gap-3 bg-[#FAF6F0] p-4 rounded-2xl border border-[#E4D9C8] text-xs">
+              <div class="sm:col-span-2">
+                <label class="block font-bold uppercase tracking-wider text-[#76667E] mb-1">Select Voucher Campaign</label>
+                <select id="issueVoucherCampaignSelect" required class="w-full px-3 py-2 rounded-xl bg-white border border-[#CEBFA8]"></select>
+              </div>
+              <div>
+                <label class="block font-bold uppercase tracking-wider text-[#76667E] mb-1">Target Participant</label>
+                <select id="issueVoucherUserSelect" required class="w-full px-3 py-2 rounded-xl bg-white border border-[#CEBFA8]"></select>
+              </div>
+              <div class="flex items-end">
+                <button type="submit" class="btn btn-primary w-full text-xs py-2">Issue Voucher</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Recent Issued Vouchers Log -->
+          <div class="pt-8">
+            <h3 class="text-lg serif-heading mb-4">Recent Platform Issued Vouchers</h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="border-b border-[#E4D9C8] text-[#76667E] uppercase tracking-wider">
+                    <th class="py-3 px-3">Voucher Code</th>
+                    <th class="py-3 px-3">Campaign</th>
+                    <th class="py-3 px-3">Recipient</th>
+                    <th class="py-3 px-3">Issued At</th>
+                    <th class="py-3 px-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="adminRecentVouchersTableBody" class="divide-y divide-[#E4D9C8]">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. Admin Leaderboard -->
+      <section id="panel-a-leaderboard" class="dash-panel space-y-6 hidden">
+        <div class="bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-8">
+          <div class="pb-6 border-b border-[#E4D9C8]">
+            <p class="text-xs font-bold uppercase tracking-widest text-[#8C2D4B]">Community Analytics</p>
+            <h2 class="text-2xl sm:text-3xl serif-heading mt-1">Platform Leaderboard Standings</h2>
+            <p class="text-sm text-[#47384F] mt-1">
+              Real-time standings across all festivals, derived from verified attendance and achievements.
+            </p>
+          </div>
+          <div class="overflow-x-auto pt-6">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="border-b border-[#E4D9C8] text-[#76667E] uppercase tracking-wider">
+                  <th class="py-3 px-3 w-16">Rank</th>
+                  <th class="py-3 px-3">Participant</th>
+                  <th class="py-3 px-3">Primary Focus</th>
+                  <th class="py-3 px-3 text-center">Verified Check-Ins</th>
+                  <th class="py-3 px-3 text-center">Badges</th>
+                  <th class="py-3 px-3 text-right">Points</th>
+                </tr>
+              </thead>
+              <tbody id="adminLeaderboardTableBody" class="divide-y divide-[#E4D9C8]">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Compact Footer -->
+  <footer class="bg-[#23162B] text-[#E4D9C8]/75 py-6 border-t border-[#47384F] text-xs mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <a href="/" class="serif-heading text-lg text-white font-bold">Rangora</a>
+        <span>&middot;</span>
+        <span>Find your kind of celebration.</span>
+      </div>
+      <div class="flex items-center gap-5">
+        <a href="/" class="hover:text-white">Explore Public Directory</a>
+        <span>support@rangora.in</span>
+        <span>+91 33 4020 8890</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODAL 1: PARTICIPANT VOUCHER DETAILS & REDEMPTION
+       ======================================================================== -->
+  <div id="voucherDetailModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-panel max-w-md p-6 sm:p-7">
+      <div class="flex items-center justify-between pb-3 border-b border-[#E4D9C8]">
+        <div class="flex items-center gap-2">
+          <img id="modalVoucherIcon" src="/static/images/badges/voucher_art_discount.svg" alt="Voucher" class="w-7 h-7 object-contain" />
+          <span id="modalVoucherTypeTag" class="text-[10px] font-bold uppercase tracking-wider text-[#C85A32]">Discount Perk</span>
+        </div>
+        <button id="closeVoucherDetailBtn" type="button" class="text-xs font-bold px-2.5 py-1 rounded-full border border-[#CEBFA8] hover:bg-[#F3ECE1]">
+          &times;
+        </button>
+      </div>
+
+      <div class="py-4 space-y-3">
+        <h3 id="modalVoucherTitle" class="text-xl serif-heading text-[#23162B]">Voucher Title</h3>
+        <p id="modalVoucherDesc" class="text-xs text-[#47384F] leading-relaxed"></p>
+
+        <div class="p-3.5 rounded-2xl bg-[#FAF6F0] border border-dashed border-[#CEBFA8] text-center space-y-1">
+          <span class="text-[10px] font-mono uppercase tracking-wider text-[#76667E] block">Unique Voucher Code</span>
+          <div class="flex items-center justify-center gap-2">
+            <span id="modalVoucherCode" class="font-mono text-lg font-bold text-[#23162B] tracking-widest">RNG-0000-0000</span>
+            <button id="copyModalVoucherCodeBtn" type="button" class="btn btn-outline text-[11px] py-1 px-2.5">
+              Copy
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-xs p-3 rounded-xl bg-[#FAF6F0] border border-[#E4D9C8]">
+          <div>
+            <span class="text-[10px] text-[#76667E] block">Valid Until</span>
+            <strong id="modalVoucherExpiry" class="text-[#23162B]">—</strong>
+          </div>
+          <div>
+            <span class="text-[10px] text-[#76667E] block">Current Status</span>
+            <strong id="modalVoucherStatusBadge" class="text-[#2B6E63]">—</strong>
+          </div>
+          <div class="col-span-2 pt-1 border-t border-[#E4D9C8]">
+            <span class="text-[10px] text-[#76667E] block">Applicability</span>
+            <span id="modalVoucherScope" class="text-[#23162B] font-medium">Platform-Wide</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-[#E4D9C8] flex items-center justify-between gap-3">
+        <button id="modalCloseVoucherBtn" type="button" class="btn btn-outline text-xs py-2 px-4">
+          Close
+        </button>
+        <button id="modalRedeemVoucherActionBtn" type="button" class="btn btn-primary text-xs py-2 px-5 font-bold">
+          Redeem Voucher
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 2: TRANSPARENT LEADERBOARD SCORING RULES
+       ======================================================================== -->
+  <div id="leaderboardScoringModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-panel max-w-lg p-6 sm:p-7">
+      <div class="flex items-center justify-between pb-3 border-b border-[#E4D9C8]">
+        <h3 class="text-lg serif-heading text-[#23162B]">Transparent Scoring Rules</h3>
+        <button id="closeLbScoringModalBtn" type="button" class="text-xs font-bold px-2.5 py-1 rounded-full border border-[#CEBFA8] hover:bg-[#F3ECE1]">
+          &times;
+        </button>
+      </div>
+      <div class="py-4 space-y-3.5 text-xs text-[#47384F]">
+        <p class="leading-relaxed">
+          The Rangora platform leaderboard reflects genuine participation records stored in our database. Scores cannot be inflated by page refreshes or duplicate bookings.
+        </p>
+
+        <div class="space-y-2">
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E4D9C8] flex items-center justify-between">
+            <div>
+              <strong class="text-[#23162B] block">Verified Door Check-In</strong>
+              <span class="text-[11px] text-[#76667E]">Organizer-verified attendance at physical campus venue</span>
+            </div>
+            <strong class="text-base text-[#2B6E63] font-mono">+50 pts</strong>
+          </div>
+
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E4D9C8] flex items-center justify-between">
+            <div>
+              <strong class="text-[#23162B] block">Earned Achievement Badge</strong>
+              <span class="text-[11px] text-[#76667E]">Platform or organizer custom pass milestone completed</span>
+            </div>
+            <strong class="text-base text-[#C85A32] font-mono">+30 pts</strong>
+          </div>
+
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E4D9C8] flex items-center justify-between">
+            <div>
+              <strong class="text-[#23162B] block">Confirmed Registration</strong>
+              <span class="text-[11px] text-[#76667E]">Confirmed seat booking for scheduled festival session</span>
+            </div>
+            <strong class="text-base text-[#23162B] font-mono">+20 pts</strong>
+          </div>
+
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E4D9C8] flex items-center justify-between">
+            <div>
+              <strong class="text-[#23162B] block">Event Echo Review</strong>
+              <span class="text-[11px] text-[#76667E]">Post-event participant rating and constructive feedback</span>
+            </div>
+            <strong class="text-base text-[#8C2D4B] font-mono">+10 pts</strong>
+          </div>
+        </div>
+
+        <p class="text-[11px] text-[#76667E] pt-2 border-t border-[#E4D9C8]">
+          <strong>Privacy Note:</strong> In compliance with collegiate privacy standards, participant email addresses and phone numbers are strictly excluded from public leaderboard feeds.
+        </p>
+      </div>
+      <div class="pt-3 border-t border-[#E4D9C8] flex justify-end">
+        <button id="closeLbScoringModalOkBtn" type="button" class="btn btn-primary text-xs py-2 px-5">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 3: ADMIN CAMPAIGN DISTRIBUTION INSPECTION DRAWER
+       ======================================================================== -->
+  <div id="admCampaignDistributionModal" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-panel max-w-3xl p-6 sm:p-7">
+      <div class="flex items-center justify-between pb-3 border-b border-[#E4D9C8]">
+        <div>
+          <span class="text-[10px] uppercase font-bold tracking-wider text-[#8C2D4B]">Campaign Inspection Drawer</span>
+          <h3 id="admDistModalTitle" class="text-xl serif-heading text-[#23162B]">Campaign Vouchers</h3>
+        </div>
+        <button id="closeAdmDistModalBtn" type="button" class="text-xs font-bold px-2.5 py-1 rounded-full border border-[#CEBFA8] hover:bg-[#F3ECE1]">
+          &times;
+        </button>
+      </div>
+      <div class="py-4 space-y-4">
+        <div id="admDistModalStats" class="grid grid-cols-4 gap-3 text-xs"></div>
+        <div class="overflow-x-auto max-h-72 border border-[#E4D9C8] rounded-2xl">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead class="bg-[#FAF6F0] sticky top-0">
+              <tr class="border-b border-[#E4D9C8] text-[#76667E] uppercase tracking-wider">
+                <th class="py-2.5 px-3">Voucher Code</th>
+                <th class="py-2.5 px-3">Recipient</th>
+                <th class="py-2.5 px-3">Issued Date</th>
+                <th class="py-2.5 px-3">Expiry</th>
+                <th class="py-2.5 px-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="admDistModalTableBody" class="divide-y divide-[#E4D9C8]">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="pt-3 border-t border-[#E4D9C8] flex justify-end">
+        <button id="closeAdmDistModalOkBtn" type="button" class="btn btn-outline text-xs py-2 px-4">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

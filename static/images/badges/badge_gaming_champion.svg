@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="gc_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="50%" stop-color="#1D4ED8"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="gc_neon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#67E8F9"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+    <filter id="gc_shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <polygon points="60,12 104,28 96,88 60,110 24,88 16,28" fill="url(#gc_bg)" stroke="url(#gc_neon)" stroke-width="3.5" filter="url(#gc_shadow)"/>
+  <path d="M38,50 C36,40 46,38 60,38 C74,38 84,40 82,50 C80,68 76,78 68,76 C64,74 62,66 60,66 C58,66 56,74 52,76 C44,78 40,68 38,50 Z" fill="#0F172A" stroke="url(#gc_neon)" stroke-width="2"/>
+  <rect x="44" y="48" width="12" height="4" fill="#67E8F9" rx="1"/>
+  <rect x="48" y="44" width="4" height="12" fill="#67E8F9" rx="1"/>
+  <circle cx="72" cy="48" r="2.5" fill="#F43F5E"/>
+  <circle cx="76" cy="53" r="2.5" fill="#10B981"/>
+</svg>

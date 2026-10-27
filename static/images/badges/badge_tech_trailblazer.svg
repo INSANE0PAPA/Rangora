@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="tt_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A3E39"/>
+      <stop offset="50%" stop-color="#2B6E63"/>
+      <stop offset="100%" stop-color="#0D2420"/>
+    </linearGradient>
+    <linearGradient id="tt_neon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5EEAD4"/>
+      <stop offset="100%" stop-color="#0D9488"/>
+    </linearGradient>
+    <filter id="tt_shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <polygon points="60,10 102,32 102,82 60,108 18,82 18,32" fill="url(#tt_bg)" stroke="url(#tt_neon)" stroke-width="3.5" filter="url(#tt_shadow)"/>
+  <path d="M60,26 L60,45 M38,48 L50,56 M82,48 L70,56 M38,76 L52,68 M82,76 L68,68 M60,92 L60,75" stroke="url(#tt_neon)" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="38" cy="48" r="4" fill="#5EEAD4"/>
+  <circle cx="82" cy="48" r="4" fill="#5EEAD4"/>
+  <circle cx="38" cy="76" r="4" fill="#5EEAD4"/>
+  <circle cx="82" cy="76" r="4" fill="#5EEAD4"/>
+  <circle cx="60" cy="26" r="4" fill="#5EEAD4"/>
+  <circle cx="60" cy="92" r="4" fill="#5EEAD4"/>
+  <polygon points="60,46 74,60 60,74 46,60" fill="#134E4A" stroke="#5EEAD4" stroke-width="2"/>
+  <rect x="55" y="55" width="10" height="10" fill="#5EEAD4" rx="2"/>
+</svg>

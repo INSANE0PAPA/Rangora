@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 140" width="240" height="140">
+  <defs>
+    <linearGradient id="vw_grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#134E4A"/>
+      <stop offset="60%" stop-color="#0F766E"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="232" height="132" rx="16" fill="url(#vw_grad)" stroke="#99F6E4" stroke-width="2"/>
+  <circle cx="4" cy="70" r="8" fill="#FAF6F0"/>
+  <circle cx="236" cy="70" r="8" fill="#FAF6F0"/>
+  <line x1="160" y1="10" x2="160" y2="130" stroke="#99F6E4" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <text x="24" y="38" font-family="serif" font-size="14" font-weight="bold" fill="#FFF">WORKSHOP ENTRY</text>
+  <text x="24" y="56" font-family="sans-serif" font-size="9" fill="#CCFBF1">Complimentary Material Kit Included</text>
+  <text x="24" y="90" font-family="sans-serif" font-size="22" font-weight="900" fill="#5EEAD4">100% FREE</text>
+  <text x="24" y="112" font-family="monospace" font-size="8" fill="#FFF" opacity="0.8">Makerspace or studio bench pass</text>
+  <text x="175" y="55" font-family="monospace" font-size="9" font-weight="bold" fill="#5EEAD4">STUDIO</text>
+  <text x="175" y="72" font-family="monospace" font-size="9" font-weight="bold" fill="#FFF">GUILD</text>
+  <text x="175" y="98" font-family="monospace" font-size="7" fill="#CCFBF1">PERK #03</text>
+</svg>

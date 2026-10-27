@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <g stroke="#D48C28" fill="none">
+    <circle cx="60" cy="60" r="48" stroke-width="3" stroke-dasharray="6,3"/>
+    <circle cx="60" cy="60" r="40" stroke-width="1.5" fill="#FEF3C7" fill-opacity="0.6"/>
+    <text x="60" y="42" font-family="serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#B45309">MITTI &amp; INK</text>
+    <text x="60" y="52" font-family="sans-serif" font-size="6" text-anchor="middle" fill="#78350F">STUDIO GUILD</text>
+    <circle cx="60" cy="68" r="10" fill="#D48C28"/>
+    <circle cx="60" cy="68" r="5" fill="#FFF"/>
+    <text x="60" y="88" font-family="monospace" font-size="6" text-anchor="middle" fill="#B45309">ARTISAN CERT</text>
+  </g>
+</svg>

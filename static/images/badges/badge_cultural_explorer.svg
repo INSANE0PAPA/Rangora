@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <radialGradient id="ce_bg" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#BA3860"/>
+      <stop offset="60%" stop-color="#8C2D4B"/>
+      <stop offset="100%" stop-color="#420C1C"/>
+    </radialGradient>
+    <linearGradient id="ce_gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF0D0"/>
+      <stop offset="50%" stop-color="#F3C262"/>
+      <stop offset="100%" stop-color="#A36B09"/>
+    </linearGradient>
+    <filter id="ce_shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <circle cx="60" cy="60" r="52" fill="url(#ce_bg)" stroke="url(#ce_gold)" stroke-width="3.5" filter="url(#ce_shadow)"/>
+  <circle cx="60" cy="60" r="44" fill="none" stroke="url(#ce_gold)" stroke-width="1" stroke-dasharray="4,3"/>
+  <path d="M40,42 C40,32 50,28 60,28 C70,28 80,32 80,42 C80,64 74,84 60,90 C46,84 40,64 40,42 Z" fill="url(#ce_gold)" stroke="#FFF" stroke-width="1"/>
+  <path d="M48,46 C51,43 55,44 55,48 C55,50 51,51 48,46 Z" fill="#420C1C"/>
+  <path d="M72,46 C69,43 65,44 65,48 C65,50 69,51 72,46 Z" fill="#420C1C"/>
+  <path d="M51,64 Q60,74 69,64" stroke="#420C1C" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <polygon points="60,32 63,39 70,39 65,44 67,51 60,47 53,51 55,44 50,39 57,39" fill="#FFF"/>
+</svg>

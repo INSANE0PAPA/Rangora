@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables and secrets (NEVER commit real credentials)
+.env
+.env.local
+
+# Local fallback database file
+rangora_local.db
+*.sqlite3
+
+# OS / Editor files
+.DS_Store
+.vscode/
+.idea/
+
+.env.*
+!.env.example
+*.db
+*.sqlite

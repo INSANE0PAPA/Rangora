@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <radialGradient id="ff_bg" cx="50%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="60%" stop-color="#5B21B6"/>
+      <stop offset="100%" stop-color="#2E1065"/>
+    </radialGradient>
+    <linearGradient id="ff_gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB"/>
+      <stop offset="50%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+    <filter id="ff_shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <circle cx="60" cy="60" r="52" fill="url(#ff_bg)" stroke="url(#ff_gold)" stroke-width="4" filter="url(#ff_shadow)"/>
+  <path d="M32,70 C30,48 40,32 50,26 C48,34 50,44 54,48 C46,54 42,66 46,74 Z" fill="url(#ff_gold)"/>
+  <path d="M88,70 C90,48 80,32 70,26 C72,34 70,44 66,48 C74,54 78,66 74,74 Z" fill="url(#ff_gold)"/>
+  <polygon points="40,78 46,56 54,66 60,48 66,66 74,56 80,78" fill="url(#ff_gold)" stroke="#FFF" stroke-width="1"/>
+  <rect x="40" y="80" width="40" height="7" rx="2" fill="url(#ff_gold)"/>
+  <circle cx="46" cy="54" r="2.5" fill="#FFF"/>
+  <circle cx="60" cy="46" r="3.5" fill="#FFF"/>
+  <circle cx="74" cy="54" r="2.5" fill="#FFF"/>
+</svg>

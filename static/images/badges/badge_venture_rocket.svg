@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="vr_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="60%" stop-color="#0369A1"/>
+      <stop offset="100%" stop-color="#082F49"/>
+    </linearGradient>
+    <linearGradient id="vr_gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#BAE6FD"/>
+      <stop offset="50%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+    <filter id="vr_shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <polygon points="60,10 102,32 102,82 60,108 18,82 18,32" fill="url(#vr_bg)" stroke="url(#vr_gold)" stroke-width="3.5" filter="url(#vr_shadow)"/>
+  <path d="M60,24 C68,36 72,56 70,68 L50,68 C48,56 52,36 60,24 Z" fill="#FFF"/>
+  <polygon points="50,60 38,72 48,72" fill="#F97316"/>
+  <polygon points="70,60 82,72 72,72" fill="#F97316"/>
+  <circle cx="60" cy="44" r="5" fill="#0284C7"/>
+  <polygon points="54,68 60,86 66,68" fill="#EAB308"/>
+  <polygon points="56,68 60,78 64,68" fill="#EF4444"/>
+</svg>

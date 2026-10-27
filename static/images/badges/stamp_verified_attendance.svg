@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <filter id="stamp_ink">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <g filter="url(#stamp_ink)" stroke="#2B6E63" fill="none">
+    <circle cx="60" cy="60" r="50" stroke-width="3" stroke-dasharray="6,3"/>
+    <circle cx="60" cy="60" r="42" stroke-width="1.5"/>
+    <text x="60" y="38" font-family="monospace" font-size="8" font-weight="bold" text-anchor="middle" fill="#2B6E63" letter-spacing="2">RANGORA VERIFIED</text>
+    <circle cx="60" cy="60" r="14" fill="#E5F2EF" stroke="#2B6E63" stroke-width="2"/>
+    <path d="M53,60 L58,65 L68,54" stroke="#2B6E63" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="60" y="88" font-family="monospace" font-size="7.5" font-weight="bold" text-anchor="middle" fill="#2B6E63" letter-spacing="1.5">ATTENDANCE AUDIT</text>
+  </g>
+</svg>

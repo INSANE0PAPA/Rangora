@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In or Create Account — Rangora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body
+  data-page="auth"
+  data-demo-mode="{{ 'true' if demo_mode_enabled else 'false' }}"
+  class="min-h-screen flex flex-col"
+>
+
+  <!-- Top Bar: Modest Rangora Wordmark + Back to Explore -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand-wordmark">Rangora</a>
+      <div class="flex items-center gap-3">
+        <a href="/" class="btn btn-outline text-xs">&larr; Back to Explore Events</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Unified Authentication Layout -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+    <!-- Left Editorial Visual Panel -->
+    <div class="lg:col-span-5 rounded-3xl overflow-hidden relative bg-[#23162B] text-[#FAF6F0] p-8 flex flex-col justify-between border border-[#CEBFA8] min-h-[460px]">
+      <img
+        src="/static/images/cultural_dance.jpg"
+        alt="Rangora cultural celebration"
+        class="absolute inset-0 w-full h-full object-cover opacity-45"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-[#23162B] via-[#23162B]/80 to-[#23162B]/40"></div>
+
+      <div class="relative z-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-[#FDF3E1] text-xs font-semibold uppercase tracking-widest">
+          <span class="w-2 h-2 rounded-full bg-[#2B6E63]"></span>
+          <span>Authoritative Neon Relational Auth</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl serif-heading text-white mt-4">
+          Step inside the celebration.
+        </h1>
+        <p class="text-sm text-[#E4D9C8] mt-3 leading-relaxed">
+          Sign in or create your verified account to reserve festival passes with ACID transactions, rescue schedule conflicts, and update your festival explorer profile.
+        </p>
+      </div>
+
+      <!-- Quick Demo Role Switcher (Enabled when ENABLE_LOCAL_DEMO_MODE=true) -->
+      <div class="relative z-10 bg-black/45 backdrop-blur-md p-4 rounded-2xl border border-white/15 mt-8">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-[11px] font-mono uppercase tracking-wider text-[#FDF3E1]">
+            1-Click Demo Accounts
+          </p>
+          <span class="text-[10px] text-[#CEBFA8]">Local Viva Mode</span>
+        </div>
+        <p class="text-[11px] text-[#E4D9C8] mb-3">
+          Instant session switching for local evaluation (restricted when demo mode is disabled in .env):
+        </p>
+        <div class="grid grid-cols-3 gap-2">
+          <button type="button" data-demo-role="participant" class="demo-fill-btn px-2.5 py-2 rounded-lg bg-white/10 hover:bg-white/25 text-left text-xs transition">
+            <strong class="block text-white">Participant</strong>
+            <span class="text-[10px] text-[#E4D9C8]">Aarav Mehta</span>
+          </button>
+          <button type="button" data-demo-role="organizer" class="demo-fill-btn px-2.5 py-2 rounded-lg bg-white/10 hover:bg-white/25 text-left text-xs transition">
+            <strong class="block text-white">Organizer</strong>
+            <span class="text-[10px] text-[#E4D9C8]">Meera Krishnan</span>
+          </button>
+          <button type="button" data-demo-role="admin" class="demo-fill-btn px-2.5 py-2 rounded-lg bg-white/10 hover:bg-white/25 text-left text-xs transition">
+            <strong class="block text-white">Admin</strong>
+            <span class="text-[10px] text-[#E4D9C8]">Dr. Nandini Rao</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Form Panel (Email & Password Authentication) -->
+    <div class="lg:col-span-7 bg-white rounded-3xl border border-[#E4D9C8] p-6 sm:p-10 shadow-sm flex flex-col justify-center">
+      <!-- Top Mode Switcher Tabs -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div class="inline-flex p-1 rounded-full bg-[#F3ECE1] border border-[#E4D9C8]">
+          <button id="tabLoginBtn" type="button" class="px-5 py-2 rounded-full text-xs font-bold bg-[#23162B] text-white transition">
+            Sign In
+          </button>
+          <button id="tabSignupBtn" type="button" class="px-5 py-2 rounded-full text-xs font-bold text-[#47384F] hover:text-[#23162B] transition">
+            Create Account
+          </button>
+        </div>
+        <span class="text-[11px] font-mono text-[#2B6E63] bg-[#E5F2EF] px-2.5 py-1 rounded-full font-semibold">
+          ● PBKDF2-HMAC-SHA256
+        </span>
+      </div>
+
+      <!-- Feedback Banner -->
+      <div id="authFeedbackBox" class="hidden mb-5 p-3.5 rounded-xl text-xs font-medium border"></div>
+
+      <!-- 1. LOGIN FORM -->
+      <form id="loginForm" class="space-y-4">
+        <div>
+          <label for="loginEmail" class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1.5">
+            Email Address
+          </label>
+          <input
+            id="loginEmail"
+            type="email"
+            required
+            placeholder="participant@rangora.edu"
+            class="w-full px-4 py-3 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm focus:outline-none focus:border-[#C85A32]"
+          />
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label for="loginPassword" class="text-xs font-bold uppercase tracking-wider text-[#47384F]">
+              Password
+            </label>
+            <button type="button" data-toggle-pw="loginPassword" class="pw-toggle-btn text-xs text-[#C85A32] font-semibold">
+              Show
+            </button>
+          </div>
+          <input
+            id="loginPassword"
+            type="password"
+            required
+            placeholder="••••••••••••"
+            class="w-full px-4 py-3 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm focus:outline-none focus:border-[#C85A32]"
+          />
+        </div>
+
+        <button id="loginSubmitBtn" type="submit" class="btn btn-primary w-full py-3 text-sm mt-2">
+          Sign In to Rangora
+        </button>
+
+        <div class="pt-3 border-t border-[#E4D9C8] text-center">
+          <p class="text-xs text-[#47384F]">
+            Don’t have an account yet?
+            <button type="button" id="switchToSignupLink" class="font-bold text-[#C85A32] underline underline-offset-4 ml-1">
+              Create your account &rarr;
+            </button>
+          </p>
+        </div>
+      </form>
+
+      <!-- 2. SIGN UP FORM -->
+      <form id="signupForm" class="space-y-4 hidden">
+        <div>
+          <label for="signupName" class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1.5">
+            Full Name
+          </label>
+          <input
+            id="signupName"
+            type="text"
+            required
+            minlength="2"
+            placeholder="e.g., Devika Chatterjee"
+            class="w-full px-4 py-3 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm focus:outline-none focus:border-[#C85A32]"
+          />
+        </div>
+
+        <div>
+          <label for="signupEmail" class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1.5">
+            Email Address
+          </label>
+          <input
+            id="signupEmail"
+            type="email"
+            required
+            placeholder="devika@rangora.edu"
+            class="w-full px-4 py-3 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm focus:outline-none focus:border-[#C85A32]"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="signupPassword" class="text-xs font-bold uppercase tracking-wider text-[#47384F]">
+                Password
+              </label>
+              <button type="button" data-toggle-pw="signupPassword" class="pw-toggle-btn text-[11px] text-[#C85A32] font-semibold">
+                Show
+              </button>
+            </div>
+            <input
+              id="signupPassword"
+              type="password"
+              required
+              minlength="6"
+              placeholder="At least 6 characters"
+              class="w-full px-4 py-3 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm focus:outline-none focus:border-[#C85A32]"
+            />
+          </div>
+
+          <div>
+            <label for="signupConfirm" class="block text-xs font-bold uppercase tracking-wider text-[#47384F] mb-1.5">
+              Confirm Password
+            </label>
+            <input
+              id="signupConfirm"
+              type="password"
+              required
+              minlength="6"
+              placeholder="Re-enter password"
+              class="w-full px-4 py-3 rounded-xl bg-[#FAF6F0] border border-[#CEBFA8] text-sm focus:outline-none focus:border-[#C85A32]"
+            />
+          </div>
+        </div>
+
+        <button id="signupSubmitBtn" type="submit" class="btn btn-primary w-full py-3 text-sm mt-2">
+          Create Account
+        </button>
+
+        <div class="pt-3 border-t border-[#E4D9C8] text-center">
+          <p class="text-xs text-[#47384F]">
+            Already have an account?
+            <button type="button" id="switchToLoginLink" class="font-bold text-[#C85A32] underline underline-offset-4 ml-1">
+              Sign in here &rarr;
+            </button>
+          </p>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Compact Footer -->
+  <footer class="bg-[#23162B] text-[#E4D9C8]/75 py-6 border-t border-[#47384F] text-xs mt-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <a href="/" class="serif-heading text-lg text-white font-bold">Rangora</a>
+        <span>&middot;</span>
+        <span>Find your kind of celebration.</span>
+      </div>
+      <div class="flex items-center gap-5">
+        <a href="/" class="hover:text-white">Explore Events</a>
+        <a href="/dashboard" class="hover:text-white">Dashboard</a>
+        <span>support@rangora.in</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
