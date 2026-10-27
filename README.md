@@ -351,6 +351,60 @@ The test script checks parts of the local application journey. Results may chang
 
 Rangora is evolving from a locally runnable academic prototype toward a more complete event-management experience. The current focus is refining role-based workflows and the local relational database. Neon PostgreSQL, Supabase services, external authentication, and unfinished feature flows remain future integration work—not completed functionality in this download.
 
+---
+
+## 🎭 The People Behind Rangora
+
+> Great celebrations are created by great teams. Rangora is a work in progress, built through shared ideas, creativity, collaboration, and plenty of debugging! 💜
+
+### ✨ Project Creator
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/INSANE0PAPA">
+        <img src="https://github.com/INSANE0PAPA.png" width="100px;" alt="Shrijit Mukherjee's GitHub avatar"/>
+        <br />
+        <sub><b>Shrijit Mukherjee</b></sub>
+      </a>
+      <br />
+      <sub>Project Creator & Developer</sub>
+      <br />
+      <a href="https://github.com/INSANE0PAPA">@INSANE0PAPA</a>
+    </td>
+  </tr>
+</table>
+
+### 🤝 Team Members
+
+A big shout-out to the teammates who helped bring ideas to life and contributed to the Rangora journey!
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Arin Aditya</strong>
+    </td>
+    <td align="center">
+      <strong>Sovan Sar</strong>
+    </td>
+    <td align="center">
+      <strong>Soumyadeep Pal</strong>
+    </td>
+    <td align="center">
+      <strong>Payel Das</strong>
+    </td>
+  </tr>
+</table>
+
+### 💜 Built Together, Improved Together
+
+Rangora is currently under active development. Not every planned feature or external integration is complete yet, and the project will continue evolving as we build, test, learn, and improve.
+
+**Our goal:** Make discovering events and planning celebrations feel exciting, simple, and personal.
+
+*To every person who shared an idea, helped solve a problem, tested a feature, or encouraged the team — thank you!* 🎉
+
+---
 <div align="center">
   <h3>🎉 Find your crowd. Make a plan. Collect a memory.</h3>
   <p><b>Rangora — Find your kind of celebration.</b></p>
