@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="terragrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C85A32"/>
+      <stop offset="100%" stop-color="#8C2D15"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#23211D" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="#FBF8EE"/>
+  <rect width="800" height="600" fill="url(#grid)"/>
+  
+  <!-- Studio Studio Table -->
+  <ellipse cx="400" cy="450" rx="260" ry="80" fill="#E8DEC8" stroke="#23211D" stroke-width="4"/>
+  <ellipse cx="400" cy="420" rx="180" ry="40" fill="#5A3E2A" stroke="#23211D" stroke-width="4"/>
+  
+  <!-- Pottery Wheel Flywheel -->
+  <ellipse cx="400" cy="380" rx="140" ry="25" fill="#3A3830" stroke="#23211D" stroke-width="3"/>
+  <ellipse cx="400" cy="370" rx="100" ry="18" fill="#8C887B" stroke="#23211D" stroke-width="3"/>
+
+  <!-- Clay Pot on Wheel -->
+  <path d="M 350 370 Q 330 300 340 260 Q 360 220 400 220 Q 440 220 460 260 Q 470 300 450 370 Z" fill="url(#terragrad)" stroke="#23211D" stroke-width="4"/>
+  <ellipse cx="400" cy="220" rx="60" ry="15" fill="#E29D38" stroke="#23211D" stroke-width="3"/>
+  <ellipse cx="400" cy="220" rx="40" ry="10" fill="#6A2E1A"/>
+
+  <!-- Hands centering clay -->
+  <path d="M 280 320 C 310 300 330 310 350 320 C 340 340 310 350 280 340 Z" fill="#D29068" stroke="#23211D" stroke-width="3"/>
+  <path d="M 520 320 C 490 300 470 310 450 320 C 460 340 490 350 520 340 Z" fill="#D29068" stroke="#23211D" stroke-width="3"/>
+
+  <!-- Stamp / Title Badge -->
+  <rect x="40" y="40" width="320" height="70" rx="6" fill="#23211D"/>
+  <text x="60" y="70" fill="#FBF8EE" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="13" font-weight="800" letter-spacing="2">RANGORA CRAFT LAB</text>
+  <text x="60" y="94" fill="#E29D38" font-family="'Playfair Display', Georgia, serif" font-size="16" font-style="italic">Centering River Clay on Wheel</text>
+
+  <!-- Studio Accent stamp -->
+  <rect x="640" y="40" width="120" height="40" fill="#C85A32" stroke="#23211D" stroke-width="2"/>
+  <text x="700" y="65" text-anchor="middle" fill="#FBF8EE" font-family="monospace" font-size="12" font-weight="700">STUDIO 4B</text>
+</svg>
+

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgDance" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A1E2D"/>
+      <stop offset="100%" stop-color="#23211D"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bgDance)"/>
+  
+  <!-- Dynamic Swirling Silk / Ghungroo motion arcs -->
+  <path d="M 180 500 C 260 380 320 280 400 240 C 480 200 580 220 620 340 C 660 460 540 520 400 500 C 300 480 220 540 180 500 Z" fill="#C85A32" opacity="0.3"/>
+  <path d="M 240 460 C 300 360 360 260 420 220 C 480 180 560 200 590 300 C 620 400 520 480 380 460 Z" fill="#E29D38" opacity="0.5"/>
+  
+  <!-- Silhouette of Dancer in dramatic pose -->
+  <circle cx="410" cy="170" r="24" fill="#FBF8EE"/>
+  <!-- Torso & Arms extended -->
+  <path d="M 410 194 L 405 280 L 440 380" stroke="#FBF8EE" stroke-width="12" stroke-linecap="round"/>
+  <!-- Mudra arms -->
+  <path d="M 408 220 Q 480 190 530 160" fill="none" stroke="#FBF8EE" stroke-width="9" stroke-linecap="round"/>
+  <path d="M 408 220 Q 320 240 280 280" fill="none" stroke="#FBF8EE" stroke-width="9" stroke-linecap="round"/>
+  <!-- Flaring Anarkali / Costume skirt -->
+  <polygon points="405,280 260,460 540,460" fill="#E29D38" stroke="#23211D" stroke-width="3"/>
+  <path d="M 260 460 Q 400 500 540 460" stroke="#C85A32" stroke-width="8" fill="none"/>
+
+  <!-- Badge -->
+  <rect x="50" y="50" width="360" height="65" rx="4" fill="#FBF8EE"/>
+  <text x="70" y="80" fill="#23211D" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="800" letter-spacing="2">KATHA &amp; KINETIC SHOWCASE</text>
+  <text x="70" y="102" fill="#8C2D4B" font-family="'Playfair Display', Georgia, serif" font-size="15" font-style="italic">Contemporary Classical Stage Ensemble</text>
+</svg>
+

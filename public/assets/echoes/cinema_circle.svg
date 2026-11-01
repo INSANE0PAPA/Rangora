@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="projectorBeam" cx="15%" cy="30%" r="90%">
+      <stop offset="0%" stop-color="#FBF8EE" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#E29D38" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#14171E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="#14171E"/>
+  
+  <!-- Night Sky Stars -->
+  <circle cx="120" cy="80" r="2" fill="#FBF8EE"/>
+  <circle cx="280" cy="60" r="1.5" fill="#FBF8EE"/>
+  <circle cx="450" cy="90" r="2" fill="#FBF8EE"/>
+  <circle cx="680" cy="70" r="1.5" fill="#FBF8EE"/>
+  <circle cx="750" cy="130" r="2" fill="#FBF8EE"/>
+
+  <!-- Vintage 16mm Projector on Left -->
+  <rect x="80" y="240" width="80" height="100" fill="#23211D" stroke="#E29D38" stroke-width="2"/>
+  <circle cx="100" cy="200" r="35" fill="#3D3B35" stroke="#FBF8EE" stroke-width="3"/>
+  <circle cx="100" cy="200" r="10" fill="#FBF8EE"/>
+  <circle cx="160" cy="170" r="30" fill="#3D3B35" stroke="#FBF8EE" stroke-width="3"/>
+  
+  <!-- Light Beam Expanding to Outdoor Screen -->
+  <polygon points="160,280 680,120 680,480 160,310" fill="url(#projectorBeam)"/>
+
+  <!-- Outdoor Projection Canvas Screen -->
+  <rect x="520" y="160" width="220" height="280" fill="#FBF8EE" stroke="#23211D" stroke-width="5"/>
+  <rect x="535" y="180" width="190" height="240" fill="#3A2818"/>
+  <circle cx="630" cy="280" r="45" fill="#E29D38" opacity="0.8"/>
+  <text x="630" y="360" text-anchor="middle" fill="#FBF8EE" font-family="'Playfair Display', Georgia, serif" font-size="14" font-style="italic">16mm Cine Bengal</text>
+
+  <!-- Title Badge -->
+  <rect x="40" y="490" width="360" height="65" rx="6" fill="#FBF8EE" stroke="#23211D" stroke-width="3"/>
+  <text x="60" y="518" fill="#23211D" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="800" letter-spacing="2">ROOFTOP 16MM FILM CIRCLE</text>
+  <text x="60" y="542" fill="#C85A32" font-family="'Playfair Display', Georgia, serif" font-size="15" font-style="italic">Observatory Lawn Cinema Under Stars</text>
+</svg>
+
