@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794384895662,
+      "tag": "0000_rangora_festival_platform",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794386730270,
+      "tag": "0001_rangora_ui_field_alignment_and_review_permissions",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794388484341,
+      "tag": "0002_secure_role_assignment_on_registration",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794389341860,
+      "tag": "0003_secure_signup_and_organiser_approval",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794389523575,
+      "tag": "0004_secure_event_echo_uploads",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794391114923,
+      "tag": "0005_allow_event_managers_to_read_event_echoes",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794391312873,
+      "tag": "0006_add_event_echo_friend_tags",
+      "breakpoints": true
+    }
+  ]
+}

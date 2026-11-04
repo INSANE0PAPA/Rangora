@@ -1,0 +1,1 @@
+ALTER TABLE public.reviews ADD COLUMN IF NOT EXISTS tagged_friends text[] NOT NULL DEFAULT '{}'::text[];
