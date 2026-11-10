@@ -1,0 +1,1303 @@
+/* Rangora design system ported from the original Flask app (light theme is the active theme). */
+@layer base {
+/* ============================================================================
+   RANGORA — Find Your Kind of Celebration
+   Locked Dual-Theme Design System (Light Neo-Brutalist Editorial & Dark Slate Neon)
+   Covers Landing Page, Auth Page, Role Dashboard, Profile Section, Chatbot & Footer
+   ============================================================================ */
+
+:root,
+html[data-theme="light"] {
+  --bg-ivory: oklch(0.954 0.014 78.3);
+  --bg-parchment: oklch(0.916 0.018 78.2);
+  --bg-card: oklch(0.963 0.013 82.4);
+  --bg-elevated: oklch(1.000 0.000 89.9);
+  --ink-plum: oklch(0.202 0.004 48.5);
+  --ink-body: oklch(0.344 0.010 61.2);
+  --ink-muted: oklch(0.494 0.016 67.4);
+  --border-warm: oklch(0.202 0.004 48.5);
+  --border-strong: oklch(0.202 0.004 48.5);
+  --border-subtle: oklch(0.847 0.020 72.5);
+
+  --terracotta: oklch(0.653 0.234 31.6);
+  --terracotta-dark: oklch(0.588 0.216 31.5);
+  --terracotta-soft: oklch(0.948 0.026 32.2);
+  --cta-bg: oklch(0.653 0.234 31.6);
+  --cta-text: oklch(1.000 0.000 89.9);
+  --cta-border: oklch(0.202 0.004 48.5);
+  --cta-shadow: 3px 3px 0px oklch(0.202 0.004 48.5);
+
+  --sparkle-color: oklch(0.653 0.234 31.6);
+  --signin-bg: oklch(0.202 0.004 48.5);
+  --signin-text: oklch(1.000 0.000 89.9);
+  --signin-border: oklch(0.202 0.004 48.5);
+
+  --saffron: oklch(0.666 0.157 58.3);
+  --saffron-soft: oklch(0.962 0.058 95.6);
+
+  --sage-teal: oklch(0.627 0.170 149.2);
+  --sage-soft: oklch(0.962 0.043 156.7);
+
+  --plum-accent: oklch(0.488 0.217 264.4);
+  --plum-soft: oklch(0.932 0.032 255.6);
+
+  --danger: oklch(0.577 0.215 27.3);
+  --danger-soft: oklch(0.936 0.031 17.7);
+
+  --card-border-width: 1.5px;
+  --card-shadow: 4px 4px 0px oklch(0.202 0.004 48.5);
+  --card-shadow-hover: 6px 6px 0px oklch(0.202 0.004 48.5);
+  --card-shadow-sm: 2.5px 2.5px 0px oklch(0.202 0.004 48.5);
+
+  --collage-ring-color: oklch(0.202 0.004 48.5);
+  --collage-ring-glow: none;
+  --stay-active-bg: oklch(0.954 0.014 78.3);
+  --stay-active-text: oklch(0.202 0.004 48.5);
+  --stay-active-ring: oklch(0.653 0.234 31.6);
+  --ribbon-bg: oklch(0.488 0.217 264.4);
+  --ribbon-text: oklch(1.000 0.000 89.9);
+  --ribbon-glow: 2px 2px 0px oklch(0.202 0.004 48.5);
+
+  --band-bg: oklch(0.916 0.018 78.2);
+  --band-border: oklch(0.847 0.020 72.5);
+  --band-hype-glow: transparent;
+  --band-pulse-glow: transparent;
+  --search-input-bg: oklch(0.954 0.014 78.3);
+  --search-input-border: oklch(0.612 0.023 74.5);
+
+  --font-display: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --shadow-subtle: 4px 4px 0px oklch(0.202 0.004 48.5);
+  --shadow-elevated: 6px 6px 0px oklch(0.202 0.004 48.5);
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+}
+
+html[data-theme="dark"] {
+  --bg-ivory: #0B0F19;
+  --bg-parchment: #111827;
+  --bg-card: #1E293B;
+  --bg-elevated: #243248;
+  --ink-plum: #F8FAFC;
+  --ink-body: #CBD5E1;
+  --ink-muted: #94A3B8;
+  --border-warm: #334155;
+  --border-strong: #475569;
+  --border-subtle: #1E293B;
+
+  --terracotta: #FF5722;
+  --terracotta-dark: #E64A19;
+  --terracotta-soft: rgba(255, 87, 34, 0.18);
+  --cta-bg: #FF5722;
+  --cta-text: #FFFFFF;
+  --cta-border: #FF7043;
+  --cta-shadow: 3px 3px 0px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 87, 34, 0.35);
+
+  --sparkle-color: #F5A201;
+  --signin-bg: transparent;
+  --signin-text: #FFFFFF;
+  --signin-border: #475569;
+
+  --saffron: #F5A201;
+  --saffron-soft: rgba(245, 162, 1, 0.18);
+
+  --sage-teal: #3CE6FC;
+  --sage-soft: rgba(60, 230, 252, 0.18);
+
+  --plum-accent: #FF3B81;
+  --plum-soft: rgba(255, 59, 129, 0.18);
+
+  --neon-lime: #D6FD52;
+  --neon-lime-soft: rgba(214, 253, 82, 0.18);
+
+  --danger: #EF4444;
+  --danger-soft: rgba(239, 68, 68, 0.18);
+
+  --card-border-width: 1.5px;
+  --card-shadow: 4px 4px 0px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --card-shadow-hover: 6px 6px 0px rgba(0, 0, 0, 0.9), 0 0 18px rgba(255, 87, 34, 0.25);
+  --card-shadow-sm: 2.5px 2.5px 0px rgba(0, 0, 0, 0.7);
+
+  --collage-ring-color: #FF5722;
+  --collage-ring-glow: 0 0 18px rgba(255, 87, 34, 0.5);
+  --stay-active-bg: #F5A201;
+  --stay-active-text: #0B0F19;
+  --stay-active-ring: #FFFFFF;
+  --ribbon-bg: #FF5722;
+  --ribbon-text: #FFFFFF;
+  --ribbon-glow: 0 0 20px rgba(255, 87, 34, 0.65);
+
+  --band-bg: #111827;
+  --band-border: #334155;
+  --band-hype-glow: radial-gradient(circle at 50% 60%, rgba(255, 59, 129, 0.25), transparent 72%);
+  --band-pulse-glow: radial-gradient(circle at 50% 60%, rgba(60, 230, 252, 0.25), transparent 72%);
+  --search-input-bg: #1E293B;
+  --search-input-border: #475569;
+
+  --shadow-subtle: 4px 4px 0px rgba(0, 0, 0, 0.8);
+  --shadow-elevated: 6px 6px 0px rgba(0, 0, 0, 0.9);
+}
+
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-ivory);
+  color: var(--ink-plum);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body {
+  background-color: var(--bg-ivory);
+  color: var(--ink-plum);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1, h2, h3, h4, .serif-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: 0;
+  color: var(--ink-plum);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ============================================================================
+   DARK THEME GLOBAL UTILITY OVERRIDES
+   Ensures every card, input, table, badge, and section across Landing, Auth,
+   and Dashboard adapts inch-by-inch when toggling Light <-> Dark theme.
+   ============================================================================ */
+html[data-theme="dark"] .bg-white,
+html[data-theme="dark"] [class*="bg-[oklch(0.984"],
+html[data-theme="dark"] [class*="bg-[oklch(0.994"] {
+  background-color: var(--bg-card) !important;
+  color: var(--ink-plum) !important;
+}
+
+html[data-theme="dark"] [class*="bg-[oklch(0.975"],
+html[data-theme="dark"] [class*="bg-[oklch(0.946"],
+html[data-theme="dark"] [class*="bg-[oklch(0.952"],
+html[data-theme="dark"] [class*="bg-[oklch(0.954"],
+html[data-theme="dark"] [class*="bg-[oklch(0.916"] {
+  background-color: var(--bg-parchment) !important;
+  color: var(--ink-plum) !important;
+}
+
+html[data-theme="dark"] [class*="text-[oklch(0.227"],
+html[data-theme="dark"] [class*="text-[oklch(0.202"] {
+  color: var(--ink-plum) !important;
+}
+
+html[data-theme="dark"] [class*="text-[oklch(0.366"],
+html[data-theme="dark"] [class*="text-[oklch(0.344"] {
+  color: var(--ink-body) !important;
+}
+
+html[data-theme="dark"] [class*="text-[oklch(0.534"],
+html[data-theme="dark"] [class*="text-[oklch(0.494"] {
+  color: var(--ink-muted) !important;
+}
+
+html[data-theme="dark"] [class*="text-[oklch(0.599"],
+html[data-theme="dark"] [class*="text-[oklch(0.537"],
+html[data-theme="dark"] [class*="text-[oklch(0.653"] {
+  color: var(--terracotta) !important;
+}
+
+html[data-theme="dark"] [class*="border-[oklch(0.890"],
+html[data-theme="dark"] [class*="border-[oklch(0.811"],
+html[data-theme="dark"] [class*="border-[oklch(0.202"] {
+  border-color: var(--border-warm) !important;
+}
+
+html[data-theme="dark"] [class*="divide-[oklch(0.890"] > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--border-warm) !important;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+  background-color: oklch(0.198 0.014 278.6) !important;
+  color: oklch(0.968 0.003 286.4) !important;
+  border-color: oklch(0.354 0.031 279.7) !important;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+  color: oklch(0.604 0.030 278.7) !important;
+}
+
+html[data-theme="dark"] [class*="bg-[oklch(0.953"],
+html[data-theme="dark"] [class*="bg-[oklch(0.962"] {
+  background-color: rgba(245, 162, 1, 0.16) !important;
+  color: #F5A201 !important;
+}
+
+html[data-theme="dark"] [class*="bg-[oklch(0.951"] {
+  background-color: rgba(16, 185, 129, 0.16) !important;
+  color: oklch(0.773 0.153 163.2) !important;
+}
+
+/* ============================================================================
+   NAVIGATION HEADER & BRAND WORDMARK WITH SPARKLE (RANGORA✦)
+   ============================================================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg-ivory);
+  border-bottom: 1.5px solid var(--border-subtle);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.9rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.brand-wordmark {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--ink-plum);
+  line-height: 1;
+  display: inline-flex;
+  align-items: flex-start;
+  position: relative;
+  transition: opacity 0.15s ease;
+}
+
+.brand-wordmark:hover {
+  opacity: 0.88;
+}
+
+.brand-sparkle {
+  display: inline-block;
+  color: var(--sparkle-color);
+  font-size: 0.95rem;
+  line-height: 1;
+  margin-left: 1px;
+  transform: translateY(-4px);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.brand-wordmark:hover .brand-sparkle {
+  transform: translateY(-4px) rotate(25deg) scale(1.15);
+}
+
+.nav-link-item {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink-plum);
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.nav-link-item:hover {
+  color: var(--terracotta);
+}
+
+/* Theme Toggle Pill Button beside Sign In */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.38rem;
+  height: 38px;
+  padding: 0 0.75rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--ink-plum);
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--card-shadow-sm);
+  transition: transform 0.18s ease, color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--terracotta);
+}
+
+/* Sign In Pill Button matching mockup */
+.btn-signin-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.35rem;
+  border-radius: 999px;
+  background: var(--signin-bg);
+  color: var(--signin-text);
+  border: 1.5px solid var(--signin-border);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.18s ease, color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn-signin-pill:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+/* Header Search Icon & Expandable Search Popover */
+.header-search-icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-plum);
+  background: transparent;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.header-search-icon-btn:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-card);
+}
+
+.header-search-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 340px;
+}
+
+.header-search-box {
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 999px;
+  padding: 0.36rem 0.85rem;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.header-search-box:focus-within {
+  border-color: var(--terracotta);
+}
+
+.header-search-input {
+  width: 100%;
+  border: none;
+  background: transparent !important;
+  font-size: 0.82rem;
+  color: var(--ink-plum);
+  outline: none;
+}
+
+.header-search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: 16px;
+  box-shadow: var(--shadow-elevated);
+  z-index: 70;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+/* Round Top-Right User Avatar Icon */
+.user-avatar-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: var(--bg-parchment);
+  border: 2px solid var(--ink-plum);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: var(--card-shadow-sm);
+  flex-shrink: 0;
+}
+
+html[data-theme="dark"] .user-avatar-btn {
+  border-color: var(--terracotta);
+}
+
+.user-avatar-btn:hover {
+  transform: scale(1.05);
+}
+
+.user-avatar-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 9999px;
+}
+
+.user-avatar-status-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--sage-teal);
+  border: 2px solid var(--bg-ivory);
+}
+
+/* ============================================================================
+   HERO SECTION & ORGANIC MULTI-PHOTO COLLAGE (MATCHING REFERENCE MOCKUPS)
+   ============================================================================ */
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.8vw, 4.15rem);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: 0;
+  color: var(--ink-plum);
+}
+
+.btn-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.75rem;
+  border-radius: 12px;
+  background: var(--cta-bg);
+  color: var(--cta-text);
+  border: 1.5px solid var(--cta-border);
+  box-shadow: var(--cta-shadow);
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.btn-hero-cta:hover {
+  transform: translate(-1px, -2px);
+}
+
+/* Organic Collage Container */
+.hero-collage-stage {
+  position: relative;
+  width: 100%;
+  min-height: 360px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* Continuous Organic Floating Keyframes for Hero Collage & Badges */
+@keyframes continuousFloat1 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-9px) rotate(1.2deg);
+  }
+}
+
+@keyframes continuousFloat2 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(10px) rotate(-1.5deg);
+  }
+}
+
+@keyframes continuousFloatPill {
+  0%, 100% {
+    transform: rotate(10deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(8deg) translateY(-8px);
+  }
+}
+
+@keyframes continuousFloatStamp1 {
+  0%, 100% {
+    transform: rotate(-14deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(-10deg) translateY(-9px);
+  }
+}
+
+@keyframes continuousFloatStamp2 {
+  0%, 100% {
+    transform: rotate(14deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(17deg) translateY(8px);
+  }
+}
+
+.collage-photo-frame {
+  position: absolute;
+  overflow: hidden;
+  border: 2px solid var(--collage-ring-color);
+  box-shadow: var(--collage-ring-glow);
+  background: var(--bg-parchment);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.collage-photo-frame:hover {
+  transform: scale(1.05) !important;
+  z-index: 15;
+}
+
+.collage-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 1. Left large circle (Friends laughing at campus fest) */
+.collage-frame-left {
+  width: 215px;
+  height: 215px;
+  border-radius: 50%;
+  top: 12px;
+  left: 16px;
+  z-index: 6;
+  animation: continuousFloat1 5.4s ease-in-out infinite;
+}
+html[data-theme="dark"] .collage-frame-left {
+  border-color: #FF3B81;
+  box-shadow: 0 0 24px rgba(255, 59, 129, 0.55);
+}
+
+/* 2. Top-center arch/circle (Main stage festival crowd) */
+.collage-frame-top-mid {
+  width: 185px;
+  height: 195px;
+  border-radius: 999px;
+  top: 8px;
+  left: 195px;
+  z-index: 5;
+  animation: continuousFloat2 6.2s ease-in-out infinite 0.4s;
+}
+html[data-theme="dark"] .collage-frame-top-mid {
+  border-color: #3CE6FC;
+  box-shadow: 0 0 24px rgba(60, 230, 252, 0.55);
+}
+
+/* 3. Bottom-center circle (Hands up outdoor concert) */
+.collage-frame-bottom-mid {
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  top: 162px;
+  left: 155px;
+  z-index: 8;
+  animation: continuousFloat1 5.8s ease-in-out infinite 0.8s;
+}
+html[data-theme="dark"] .collage-frame-bottom-mid {
+  border-color: #F5A201;
+  box-shadow: 0 0 24px rgba(245, 162, 1, 0.55);
+}
+
+/* 4. Right tilted pill/oval (Art & painting workshop) */
+.collage-frame-right-pill {
+  width: 170px;
+  height: 265px;
+  border-radius: 999px;
+  top: 38px;
+  left: 332px;
+  transform: rotate(10deg);
+  z-index: 7;
+  animation: continuousFloatPill 6.6s ease-in-out infinite 0.2s;
+}
+.collage-frame-right-pill:hover {
+  transform: rotate(8deg) scale(1.05) !important;
+}
+html[data-theme="dark"] .collage-frame-right-pill {
+  border-color: #D6FD52;
+  box-shadow: 0 0 24px rgba(214, 253, 82, 0.55);
+}
+
+/* "STAY ACTIVE" Circular Stamp Badges */
+.stay-active-stamp {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--stay-active-bg);
+  color: var(--stay-active-text);
+  border: 2px solid oklch(0.202 0.004 48.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.05;
+  z-index: 12;
+  box-shadow: var(--card-shadow-sm);
+}
+
+.stay-active-stamp::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--stay-active-ring);
+  pointer-events: none;
+}
+
+.stay-active-bottom-left {
+  width: 108px;
+  height: 108px;
+  top: 164px;
+  left: 2px;
+  transform: rotate(-14deg);
+  font-size: 0.92rem;
+  animation: continuousFloatStamp1 4.8s ease-in-out infinite;
+}
+
+.stay-active-top-mid {
+  width: 84px;
+  height: 84px;
+  top: 10px;
+  left: 172px;
+  transform: rotate(14deg);
+  font-size: 0.72rem;
+  animation: continuousFloatStamp2 5.2s ease-in-out infinite 0.6s;
+}
+
+html[data-theme="dark"] .stay-active-top-mid {
+  background: oklch(0.658 0.027 280.6);
+  color: oklch(0.184 0.008 285.6);
+}
+
+/* "CAMPUS FEST 2026" Curved Ribbon Pill */
+.campus-fest-ribbon {
+  position: absolute;
+  top: 24px;
+  left: 382px;
+  z-index: 14;
+  background: var(--ribbon-bg);
+  color: var(--ribbon-text);
+  border: 2px solid oklch(0.202 0.004 48.5);
+  box-shadow: var(--ribbon-glow);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transform: rotate(28deg);
+  white-space: nowrap;
+}
+
+.collage-arrow-svg {
+  position: absolute;
+  color: var(--ink-plum);
+  z-index: 11;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .hero-collage-stage {
+    transform: scale(0.76);
+    transform-origin: top left;
+    min-height: 280px;
+  }
+}
+
+/* ============================================================================
+   4-COLUMN FEATURE & SEARCH BAND BELOW HERO
+   ============================================================================ */
+.feature-search-band {
+  background: var(--band-bg);
+  border-top: 1.5px solid var(--band-border);
+  border-bottom: 1.5px solid var(--band-border);
+  position: relative;
+  transition: background-color 0.25s ease;
+}
+
+.feature-band-col {
+  padding: 1.25rem 1.25rem;
+  position: relative;
+  transition: transform 0.15s ease;
+}
+
+.feature-band-col-hype {
+  background-image: var(--band-hype-glow);
+}
+
+.feature-band-col-pulse {
+  background-image: var(--band-pulse-glow);
+}
+
+.tag-pill-natural {
+  background: oklch(0.897 0.179 126.7);
+  color: oklch(0.202 0.004 48.5);
+  border: 1.5px solid oklch(0.202 0.004 48.5);
+  padding: 0.12rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.tag-pill-outdoor {
+  background: oklch(0.845 0.130 165.0);
+  color: oklch(0.202 0.004 48.5);
+  border: 1.5px solid oklch(0.202 0.004 48.5);
+  padding: 0.12rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.tag-pill-music {
+  background: oklch(0.591 0.257 322.9);
+  color: oklch(1.000 0.000 89.9);
+  border: 1.5px solid oklch(0.202 0.004 48.5);
+  padding: 0.12rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.band-search-pill {
+  display: flex;
+  align-items: center;
+  background: var(--search-input-bg);
+  border: 1.5px solid var(--search-input-border);
+  border-radius: 999px;
+  padding: 0.48rem 0.95rem;
+  margin-top: 0.45rem;
+}
+
+html[data-theme="dark"] .band-search-pill {
+  box-shadow: 0 0 12px rgba(217, 249, 38, 0.2);
+}
+
+/* ============================================================================
+   FEATURED EVENTS TODAY BENTO GRID & NEO-BRUTALIST / DARK-SLATE CARDS
+   ============================================================================ */
+.brutal-card {
+  background: var(--bg-card);
+  border: var(--card-border-width) solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  overflow: hidden;
+}
+
+.brutal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.bento-pill-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.18rem 0.72rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-strong);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--ink-plum);
+  background: transparent;
+}
+
+.bento-pill-tag.tag-pink-outline {
+  border-color: oklch(0.656 0.212 354.3);
+  color: var(--ink-plum);
+}
+
+/* ============================================================================
+   BUTTONS & BADGES
+   ============================================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.62rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  border: 1.5px solid transparent;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--cta-bg);
+  color: var(--cta-text);
+  border-color: var(--cta-border);
+  box-shadow: var(--cta-shadow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.btn-plum {
+  background: var(--ink-plum);
+  color: var(--bg-ivory);
+  border-color: var(--ink-plum);
+}
+
+.btn-plum:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: var(--bg-card);
+  border-color: var(--border-strong);
+  color: var(--ink-plum);
+  box-shadow: var(--card-shadow-sm);
+}
+
+.btn-outline:hover {
+  border-color: var(--terracotta);
+  transform: translateY(-1px);
+}
+
+.btn-sage {
+  background: var(--sage-teal);
+  color: oklch(1.000 0.000 89.9);
+  border-color: oklch(0.202 0.004 48.5);
+}
+
+/* ============================================================================
+   EVENT CATALOG CARDS & SEAT PULSE BAR
+   ============================================================================ */
+.event-card {
+  background: var(--bg-card);
+  border: var(--card-border-width) solid var(--border-strong);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  box-shadow: var(--card-shadow);
+  position: relative;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.event-card-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg-parchment);
+  border-bottom: 1.5px solid var(--border-strong);
+}
+
+.event-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.event-card:hover .event-card-media img {
+  transform: scale(1.04);
+}
+
+.ticket-divider {
+  position: relative;
+  border-top: 1.5px dashed var(--border-subtle);
+  margin: 0.85rem 0;
+}
+
+.seat-pulse-wrap {
+  background: var(--bg-parchment);
+  border-radius: 10px;
+  padding: 0.55rem 0.75rem;
+  border: 1.5px solid var(--border-subtle);
+}
+
+.seat-pulse-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(128, 128, 128, 0.25);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 0.35rem;
+}
+
+.seat-pulse-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+.pulse-available .seat-pulse-bar-fill { background: var(--sage-teal); }
+.pulse-warm .seat-pulse-bar-fill { background: var(--saffron); }
+.pulse-urgent .seat-pulse-bar-fill { background: oklch(0.653 0.234 31.6); }
+.pulse-full .seat-pulse-bar-fill,
+.pulse-muted .seat-pulse-bar-fill { background: var(--ink-muted); }
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.pulse-available .pulse-dot { background: var(--sage-teal); }
+.pulse-warm .pulse-dot { background: var(--saffron); }
+.pulse-urgent .pulse-dot { background: oklch(0.653 0.234 31.6); }
+.pulse-full .pulse-dot,
+.pulse-muted .pulse-dot { background: var(--ink-muted); }
+
+/* ============================================================================
+   PASSPORT STAMPS, TOASTS & MODALS
+   ============================================================================ */
+.passport-stamp {
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  background: var(--bg-card);
+  transition: all 0.2s ease;
+}
+
+.passport-stamp.unlocked {
+  border-style: solid;
+  border-color: var(--sage-teal);
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 380px;
+}
+
+.toast-card {
+  background: oklch(0.202 0.004 48.5);
+  color: oklch(0.954 0.014 78.3);
+  padding: 0.9rem 1.15rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-elevated);
+  border: 1.5px solid var(--border-strong);
+  border-left: 5px solid var(--terracotta);
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: slideInUp 0.22s ease forwards;
+}
+
+.toast-card.toast-success { border-left-color: var(--sage-teal); }
+.toast-card.toast-error { border-left-color: var(--danger); }
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 18, 22, 0.72);
+  backdrop-filter: blur(5px);
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-panel {
+  background: var(--bg-card);
+  color: var(--ink-plum);
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--card-shadow);
+}
+
+/* ============================================================================
+   INTERACTIVE HERO BUBBLE EFFECT (Preserved for Test 13)
+   ============================================================================ */
+.hero-bubble-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.hero-bubble {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 59, 29, 0.28) 55%,
+    rgba(217, 249, 38, 0.25) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  will-change: transform, opacity;
+  animation: heroBubbleFloat 1.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-bubble.pop {
+  animation: heroBubblePop 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes heroBubbleFloat {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.35) rotate(0deg);
+  }
+  20% {
+    opacity: 0.85;
+    transform: translate(calc(-50% + var(--drift-x, 0px) * 0.25), -20px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--drift-x, 0px)), -85px) scale(1.18) rotate(15deg);
+  }
+}
+
+@keyframes heroBubblePop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  80% {
+    opacity: 0.85;
+    transform: translate(calc(-50% + var(--drift-x, 0px) * 0.8), -50px) scale(1.28);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--drift-x, 0px)), -70px) scale(1.75);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bubble,
+  .hero-bubble.pop {
+    animation: none !important;
+    display: none !important;
+  }
+}
+
+/* ============================================================================
+   CATEGORY FILTER RAIL, REWARDS, VOUCHERS & LEADERBOARD
+   ============================================================================ */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.cat-rail-btn {
+  transition: transform 0.18s ease, color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+.cat-rail-btn.active {
+  background: var(--cta-bg) !important;
+  color: var(--cta-text) !important;
+  border-color: var(--border-strong) !important;
+  box-shadow: var(--card-shadow-sm) !important;
+}
+
+.reward-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.reward-card:hover {
+  transform: translateY(-2px);
+}
+
+.badge-art-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.stamp-art-img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.coupon-ticket {
+  position: relative;
+  background: var(--bg-card);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.coupon-ticket:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow);
+}
+
+.podium-card {
+  transition: transform 0.2s ease;
+}
+.podium-card:hover {
+  transform: translateY(-4px);
+}
+
+/* ============================================================================
+   CONTACT US & CAMPUS CONCIERGE CHATBOT WIDGET
+   ============================================================================ */
+.chatbot-shell {
+  background: var(--bg-card);
+  border: 2px solid var(--border-strong);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rangora-chat-widget {
+  position: fixed;
+  inset: auto auto 1.5rem 1.5rem;
+  z-index: 65;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.rangora-chat-widget .chatbot-shell {
+  width: min(24rem, calc(100vw - 2rem));
+  max-height: min(40rem, calc(100dvh - 7rem));
+}
+
+.chatbot-messages-area {
+  height: min(310px, 38dvh);
+  min-height: 150px;
+  overflow-y: auto;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--bg-ivory);
+}
+
+.chat-bubble-bot {
+  align-self: flex-start;
+  max-width: 85%;
+  padding: 0.7rem 0.95rem;
+  border-radius: 16px 16px 16px 4px;
+  background: var(--bg-card);
+  color: var(--ink-plum);
+  border: 1.5px solid var(--border-strong);
+  font-size: 0.8rem;
+  line-height: 1.48;
+  box-shadow: var(--card-shadow-sm);
+}
+
+.chat-bubble-user {
+  align-self: flex-end;
+  max-width: 82%;
+  padding: 0.7rem 0.95rem;
+  border-radius: 16px 16px 4px 16px;
+  background: var(--cta-bg);
+  color: var(--cta-text);
+  border: 1.5px solid var(--border-strong);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.45;
+  box-shadow: var(--card-shadow-sm);
+}
+
+.chat-quick-chip {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--ink-plum);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chat-quick-chip:hover {
+  background: var(--cta-bg);
+  color: var(--cta-text);
+}
+
+/* Floating Quick-Chat Launcher */
+.floating-chat-launcher {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 999px;
+  background: var(--cta-bg);
+  color: var(--cta-text);
+  border: 2px solid oklch(0.202 0.004 48.5);
+  box-shadow: var(--card-shadow);
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.18s ease;
+}
+
+.floating-chat-launcher:hover {
+  transform: translateY(-2px);
+}
+
+}
+
+
+/* Gentle, wave-like response in the existing Rangora photo collage. */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+  .hero-collage-stage:hover .collage-frame-left { animation: rangora-wave-left 1.35s ease-in-out infinite alternate; }
+  .hero-collage-stage:hover .collage-frame-top-mid { animation: rangora-wave-top 1.55s ease-in-out infinite alternate; }
+  .hero-collage-stage:hover .collage-frame-bottom-mid { animation: rangora-wave-bottom 1.25s ease-in-out infinite alternate; }
+  .hero-collage-stage:hover .collage-frame-right-pill { animation: rangora-wave-right 1.45s ease-in-out infinite alternate; }
+}
+@keyframes rangora-wave-left { to { transform: translate3d(-4px, -6px, 0) scale(1.025); } }
+@keyframes rangora-wave-top { to { transform: translate3d(3px, -7px, 0) rotate(3deg); } }
+@keyframes rangora-wave-bottom { to { transform: translate3d(-2px, 5px, 0) scale(1.03); } }
+@keyframes rangora-wave-right { to { transform: translate3d(4px, -4px, 0) rotate(7deg); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

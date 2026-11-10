@@ -1,0 +1,345 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+@import "./rangora.css";
+
+@custom-variant dark (&:is(html[data-theme="dark"] *));
+
+@theme inline {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: var(--font-display);
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --color-background: var(--bg-ivory);
+  --color-foreground: var(--ink-plum);
+  --color-ink-body: var(--ink-body);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-plum: var(--ink-plum);
+  --color-line: var(--border-subtle);
+  --color-ivory: var(--bg-ivory);
+  --color-parchment: var(--bg-parchment);
+  --color-paper: var(--bg-card);
+  --color-elevated: var(--bg-elevated);
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-soft: var(--terracotta-soft);
+  --color-saffron: var(--saffron);
+  --color-saffron-soft: var(--saffron-soft);
+  --color-sage: var(--sage-teal);
+  --color-lime: #D6FD52;
+  --color-cyan: #3CE6FC;
+  --color-pink: #FF3B81;
+  --color-footer-text: var(--ink-body);
+  --color-footer-dim: var(--ink-muted);
+  --color-card: var(--bg-card);
+  --color-card-foreground: var(--ink-plum);
+  --color-popover: var(--bg-elevated);
+  --color-popover-foreground: var(--ink-plum);
+  --color-primary: var(--terracotta);
+  --color-primary-foreground: var(--cta-text);
+  --color-secondary: var(--bg-parchment);
+  --color-secondary-foreground: var(--ink-plum);
+  --color-muted: var(--bg-parchment);
+  --color-muted-foreground: var(--ink-muted);
+  --color-accent: var(--sage-soft);
+  --color-accent-foreground: var(--ink-plum);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: var(--cta-text);
+  --color-border: var(--border-subtle);
+  --color-input: var(--border-subtle);
+  --color-ring: var(--terracotta);
+  --color-chart-1: var(--terracotta);
+  --color-chart-2: var(--sage-teal);
+  --color-chart-3: var(--saffron);
+  --color-chart-4: var(--plum-accent);
+  --color-chart-5: var(--danger);
+  --color-sidebar: var(--bg-parchment);
+  --color-sidebar-foreground: var(--ink-plum);
+  --color-sidebar-primary: var(--terracotta);
+  --color-sidebar-primary-foreground: var(--cta-text);
+  --color-sidebar-accent: var(--sage-soft);
+  --color-sidebar-accent-foreground: var(--ink-plum);
+  --color-sidebar-border: var(--border-subtle);
+  --color-sidebar-ring: var(--terracotta);
+  --color-ivory: var(--bg-ivory);
+  --color-parchment: var(--bg-parchment);
+  --color-paper: var(--bg-card);
+  --color-elevated: var(--bg-elevated);
+  --color-ink: var(--ink-plum);
+  --color-ink-body: var(--ink-body);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--border-subtle);
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-soft: var(--terracotta-soft);
+  --color-saffron: var(--saffron);
+  --color-saffron-soft: var(--saffron-soft);
+  --color-sage: var(--sage-teal);
+  --color-lime: #D6FD52;
+  --color-cyan: #3CE6FC;
+  --color-pink: #FF3B81;
+  --color-footer-text: var(--ink-body);
+  --color-footer-dim: var(--ink-muted);
+}
+
+:root {
+  --background: var(--bg-ivory);
+  --foreground: var(--ink-plum);
+  --card: var(--bg-card);
+  --card-foreground: var(--ink-plum);
+  --popover: var(--bg-elevated);
+  --popover-foreground: var(--ink-plum);
+  --primary: var(--terracotta);
+  --primary-foreground: var(--cta-text);
+  --secondary: var(--bg-parchment);
+  --secondary-foreground: var(--ink-plum);
+  --muted: var(--bg-parchment);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--sage-soft);
+  --accent-foreground: var(--ink-plum);
+  --destructive: var(--danger);
+  --destructive-foreground: var(--cta-text);
+  --border: var(--border-subtle);
+  --input: var(--border-subtle);
+  --ring: var(--terracotta);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --background: var(--bg-ivory);
+  --foreground: var(--ink-plum);
+  --card: var(--bg-card);
+  --card-foreground: var(--ink-plum);
+  --popover: var(--bg-elevated);
+  --popover-foreground: var(--ink-plum);
+  --primary: var(--terracotta);
+  --primary-foreground: var(--cta-text);
+  --secondary: var(--bg-parchment);
+  --secondary-foreground: var(--ink-plum);
+  --muted: var(--bg-parchment);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--sage-soft);
+  --accent-foreground: var(--ink-plum);
+  --destructive: var(--danger);
+  --destructive-foreground: var(--cta-text);
+  --border: var(--border-subtle);
+  --input: var(--border-subtle);
+  --ring: var(--terracotta);
+}
+
+@layer base {
+  * {
+    border-color: var(--border-subtle);
+  }
+
+  body {
+    background: var(--bg-ivory);
+    color: var(--ink-plum);
+  }
+}
+
+.rangora-chat-widget {
+  position: fixed;
+  z-index: 80;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  display: grid;
+  justify-items: end;
+  gap: 0.75rem;
+}
+
+.rangora-chat-widget .floating-chat-launcher {
+  position: static;
+}
+
+.header-search {
+  display: flex;
+  min-width: 0;
+  width: min(28vw, 19rem);
+  align-items: center;
+  gap: 0.35rem;
+  border: 1.5px solid var(--border-subtle);
+  background: var(--bg-card);
+  padding: 0.15rem 0.3rem 0.15rem 0.65rem;
+  color: var(--ink-muted);
+}
+
+.header-search input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: var(--ink-plum);
+  padding: 0.45rem 0.2rem;
+  outline: none;
+  font-size: 0.8rem;
+}
+
+.header-search button {
+  height: 2rem;
+  width: 2rem;
+}
+
+.hero-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: min(100%, 40rem);
+  border: 2px solid var(--ink-plum);
+  background: var(--bg-card);
+  padding: 0.5rem;
+  box-shadow: var(--card-shadow);
+}
+
+.hero-search input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: var(--ink-plum);
+  padding: 0.75rem;
+  outline: none;
+}
+
+.demo-access {
+  margin-top: 1rem;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1rem;
+}
+
+.demo-role-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.demo-role-panel {
+  min-width: 0;
+  border: 1.5px solid var(--ink-plum);
+  background: var(--bg-card);
+  padding: 1rem;
+  box-shadow: var(--card-shadow);
+  animation: rangora-demo-pop 500ms both;
+}
+
+.badge-display {
+  position: relative;
+  overflow: hidden;
+  min-height: 8.5rem;
+  border: 2px dashed var(--terracotta);
+  padding: 1rem;
+  transform: rotate(-1deg);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.badge-display:nth-child(even) {
+  transform: rotate(1deg);
+}
+
+.badge-display:hover,
+.badge-earned {
+  border-style: solid;
+  box-shadow: var(--card-shadow-sm);
+}
+
+.badge-display:hover {
+  transform: rotate(0) translateY(-2px);
+}
+
+.badge-unearned {
+  opacity: 0.65;
+  filter: grayscale(0.7);
+}
+
+.demo-stamp {
+  display: inline-flex;
+  border: 2px solid var(--terracotta);
+  color: var(--terracotta);
+  padding: 0.25rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+}
+
+.presentation-banner {
+  border-bottom: 2px solid var(--ink-plum);
+  background: var(--saffron-soft);
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.header-search input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+@keyframes rangora-demo-pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) rotate(-2deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+}
+
+@media (max-width: 700px) {
+  .demo-role-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding: 0.65rem 0.8rem;
+  }
+
+  .header-search {
+    order: 3;
+    width: 100%;
+    max-width: none;
+    padding: 0.15rem 0.35rem 0.15rem 0.65rem;
+  }
+
+  .header-search>svg {
+    display: block;
+  }
+
+  .header-search input {
+    width: auto;
+    min-width: 0;
+    padding: 0.4rem 0.2rem;
+  }
+
+  .header-search input:focus {
+    position: static;
+    width: auto;
+    border: 0;
+    background: transparent;
+    padding: 0.4rem 0.2rem;
+  }
+
+  .site-header .flex.items-center.gap-3.sm\:gap-5 {
+    gap: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .demo-role-panel {
+    animation: none;
+  }
+}
+
+.event-price {
+  background: #23211D;
+  color: #FBF8EE;
+  border: 1px solid rgba(251, 248, 238, 0.25);
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
