@@ -472,11 +472,15 @@ npm run build
 <details>
   <summary><b>Connecting to Neon PostgreSQL</b></summary>
 
-  Rangora reads your database credentials from the `DATABASE_URL` environment variable in `.env`. Ensure your connection string includes SSL:
-  ```env
-  DATABASE_URL=postgresql://user:password@ep-xyz.us-east-2.aws.neon.tech/neondb?sslmode=require
-  ```
-  If you are offline or testing locally, the **`/demo`** workspace automatically runs with an in-memory transactional database so you can test all features without internet access!
+  Rangora reads your database credentials from the `DATABASE_URL` environment variable inside your private `.env` file (copied from `.env.example`).
+
+  To connect your own Neon project:
+  1. Go to [console.neon.tech](https://console.neon.tech) and copy your **Connection String**.
+  2. In your private `.env` file, paste your string (with SSL enabled):
+     ```env
+     DATABASE_URL=postgresql://neondb_owner:YOUR_NEON_PASSWORD@ep-your-project-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require
+     ```
+  3. *Testing without Neon or offline?* Simply navigate to **`/demo`**! The interactive demo workspace runs on an in-memory transactional database so you can test all 3 role dashboards, bookings, vouchers, and clash detection completely offline with zero setup!
 </details>
 
 <details>
