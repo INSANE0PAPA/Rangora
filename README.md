@@ -78,7 +78,7 @@
   # 1. Install dependencies
   npm install
 
-  # 2. Copy environment template
+  # 2. Copy environment template & configure your own API keys
   cp .env.example .env
 
   # 3. Launch the development server
@@ -91,6 +91,8 @@
   bun run dev
   ```
   The application will be accessible at `http://localhost:8080` (or `http://localhost:3000`).
+
+  > 💡 **Tip:** If you do not have external API keys yet, head directly to `http://localhost:8080/demo` for instant 1-click evaluation with 0 configuration.
 </details>
 
 ---
@@ -484,6 +486,22 @@ npm run build
 </details>
 
 <details>
+  <summary><b>Connecting to Supabase (Auth & Private Media Storage)</b></summary>
+
+  To enable real user signups and institutional email verification:
+  1. Go to [supabase.com](https://supabase.com) and create a free project.
+  2. Navigate to **Project Settings &rarr; API**.
+  3. Copy your **Project URL** and **`anon` Public API Key**.
+  4. In your `.env` file, set:
+     ```env
+     SUPABASE_URL=https://your-project-id.supabase.co
+     SUPABASE_PUBLISHABLE_KEY=sb_publishable_your_key_here
+     VITE_SUPABASE_URL=https://your-project-id.supabase.co
+     VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_your_key_here
+     ```
+</details>
+
+<details>
   <summary><b>How do I use the free local Ollama AI Chatbot?</b></summary>
 
   1. Download and install Ollama from [ollama.com](https://ollama.com/).
@@ -504,26 +522,48 @@ npm run build
   Navigate to `http://localhost:8080/demo` and click the **"Reset Demo Data"** button in the header toolbar. This restores all sample events, registrations, and itinerary items to their pristine initial state instantly.
 </details>
 
-<details>
-  <summary><b>How do I use the free local Ollama AI Chatbot?</b></summary>
+---
 
-  1. Download and install Ollama from [ollama.com](https://ollama.com/).
-  2. Pull any model (for example: `ollama run llama3.2` or `ollama run mistral`).
-  3. In your `.env` file, set:
-     ```env
-     OLLAMA_ENABLED=true
-     OLLAMA_MODEL=llama3.2
-     OLLAMA_HOST=http://127.0.0.1:11434
-     ```
-  4. Launch Rangora! The campus concierge will communicate directly with your local GPU/CPU with zero external API fees.
-  5. *No Ollama installed?* Rangora automatically falls back to its built-in **Campus Concierge Heuristic Engine**, answering event, venue, and ticketing questions completely offline.
-</details>
+## 🔑 Required API Keys & Service Configuration Guide
 
-<details>
-  <summary><b>How do I reset demo test data?</b></summary>
+> [!IMPORTANT]
+> **Bring Your Own Keys for Live Cloud Services:**  
+> To protect user privacy and avoid shared quotas, this public repository does **not** include pre-configured private API keys or database passwords. Anyone deploying or running Rangora with live cloud services must provide their own credentials in `.env` (copied from `.env.example`).
+>
+> ⚡ **Zero-Key Offline Evaluation Mode:**  
+> If you simply want to test, grade, or explore the website locally, **you do NOT need any API keys!** Simply run `run_rangora.bat` and open `http://localhost:8080/demo`. The built-in in-memory transactional database and heuristic campus concierge operate completely offline with 0 configuration.
 
-  Navigate to `http://localhost:8080/demo` and click the **"Reset Demo Data"** button in the header toolbar. This restores all sample events, registrations, and itinerary items to their pristine initial state instantly.
-</details>
+### Summary of Required & Optional API Keys
+
+| Service | Environment Variable | Required For | Where to Get It (100% Free Tiers) |
+|---|---|---|---|
+| 🐘 **Neon Serverless PostgreSQL** | `DATABASE_URL`<br>`DATABASE_URL_DIRECT`<br>`DATABASE_URL_DEMO` | Live relational event directory, ACID seat reservation locks, ticket check-in logs, and SQL queries. | [console.neon.tech](https://console.neon.tech) &rarr; Create Project &rarr; Copy **Connection Details** (Pooled & Direct). |
+| ⚡ **Supabase** | `SUPABASE_URL`<br>`SUPABASE_PUBLISHABLE_KEY`<br>`VITE_SUPABASE_URL`<br>`VITE_SUPABASE_PUBLISHABLE_KEY` | Real student & organizer email logins, password resets, RBAC token verification, and Event Echo media uploads. | [supabase.com](https://supabase.com) &rarr; Create Project &rarr; **Project Settings &rarr; API** &rarr; Copy URL & `anon` key. |
+| 🤖 **Google Gemini AI** *(Optional)* | `GEMINI_API_KEY`<br>`GEMINI_MODEL=gemini-2.0-flash` | Natural language campus concierge, live event recommendations, and schedule conflict resolution. | [aistudio.google.com](https://aistudio.google.com/) &rarr; Click **Get API key** (Free tier available). |
+| 🦙 **Local Ollama LLM** *(Optional)* | `OLLAMA_HOST=http://127.0.0.1:11434`<br>`OLLAMA_MODEL=llama3.2` | 100% free, private, offline local LLM running directly on your PC/GPU with zero external API calls. | Download free at [ollama.com](https://ollama.com) &rarr; run `ollama run llama3.2`. |
+| 🧠 **Campus Heuristic Engine** | *None (Zero Configuration)* | Built-in offline fallback assistant for event discovery, ticketing rules, and venue FAQs. | Included natively in the codebase. Active automatically whenever cloud LLMs are unconfigured! |
+
+### How to Configure Your Keys:
+1. Make a copy of the example environment template:
+   ```bash
+   cp .env.example .env
+   ```
+2. Open `.env` in your code editor and fill in your values:
+   ```env
+   # --- Neon PostgreSQL ---
+   DATABASE_URL="postgresql://neondb_owner:YOUR_NEON_PASSWORD@ep-your-project-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
+   DATABASE_URL_DIRECT="postgresql://neondb_owner:YOUR_NEON_PASSWORD@ep-your-project.us-east-2.aws.neon.tech/neondb?sslmode=require"
+
+   # --- Supabase Auth & Storage ---
+   SUPABASE_URL="https://your-project.supabase.co"
+   SUPABASE_PUBLISHABLE_KEY="sb_publishable_your_key_here"
+   VITE_SUPABASE_URL="https://your-project.supabase.co"
+   VITE_SUPABASE_PUBLISHABLE_KEY="sb_publishable_your_key_here"
+
+   # --- Multi-Provider AI Concierge (Choose one or leave blank for offline) ---
+   GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+   ```
+3. Save the `.env` file and start the server with `npm run dev` or `run_rangora.bat`. Your private keys are automatically excluded from git commits by `.gitignore`.
 
 ---
 

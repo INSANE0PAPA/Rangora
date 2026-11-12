@@ -20,6 +20,10 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
+      include: [
+        "use-sync-external-store/shim/with-selector",
+        "@tanstack/react-store",
+      ],
       exclude: ["postgres"],
     },
   },
